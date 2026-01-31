@@ -1,0 +1,100 @@
+---
+import navData from '@/data/navigation.json';
+
+export interface Props {
+  mobile?: boolean;
+}
+
+const { mobile = false } = Astro.props;
+const currentPath = Astro.url.pathname;
+
+function isActive(href: string): boolean {
+  if (href === '/') {
+    return currentPath === '/';
+  }
+  return currentPath.startsWith(href);
+}
+---
+
+{mobile ? (
+  <ul class="space-y-1">
+    {navData.main.map((item) => (
+      <li>
+        <a
+          href={item.href}
+          class:list={[
+            'block px-3 py-2 rounded-lg font-medium transition-colors',
+            isActive(item.href)
+              ? 'bg-primary-50 text-primary-700'
+              : 'text-gray-700 hover:bg-gray-100'
+          ]}
+        >
+          {item.label}
+        </a>
+        {item.children && (
+          <ul class="ml-4 mt-1 space-y-1">
+            {item.children.map((child) => (
+              <li>
+                <a
+                  href={child.href}
+                  class:list={[
+                    'block px-3 py-1.5 rounded text-sm transition-colors',
+                    isActive(child.href)
+                      ? 'text-primary-700 font-medium'
+                      : 'text-gray-600 hover:text-gray-900'
+                  ]}
+                >
+                  {child.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
+      </li>
+    ))}
+  </ul>
+) : (
+  <>
+    {navData.main.map((item) => (
+      <div class="relative group">
+        <a
+          href={item.href}
+          class:list={[
+            'px-3 py-2 rounded-lg font-medium transition-colors inline-flex items-center gap-1',
+            isActive(item.href)
+              ? 'text-primary-700'
+              : 'text-gray-700 hover:text-primary-600 hover:bg-gray-50'
+          ]}
+        >
+          {item.label}
+          {item.children && (
+            <svg class="w-4 h-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          )}
+        </a>
+        {item.children && (
+          <div class="absolute left-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+            <ul class="bg-white rounded-lg shadow-lg border border-gray-200 py-2 min-w-[200px]">
+              {item.children.map((child) => (
+                <li>
+                  <a
+                    href={child.href}
+                    class:list={[
+                      'block px-4 py-2 text-sm transition-colors',
+                      isActive(child.href)
+                        ? 'bg-primary-50 text-primary-700'
+                        : 'text-gray-700 hover:bg-gray-50 hover:text-primary-600'
+                    ]}
+                  >
+                    {child.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+    ))}
+  </>
+)}

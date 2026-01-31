@@ -1,0 +1,37 @@
+---
+import BaseHead from '@/components/seo/BaseHead.astro';
+import Header from '@/components/global/Header.astro';
+import Footer from '@/components/global/Footer.astro';
+import '@/styles/global.css';
+
+export interface Props {
+  title: string;
+  description: string;
+  canonicalUrl?: string;
+  ogImage?: string;
+  ogImageAlt?: string;
+  article?: {
+    publishDate: Date;
+    updatedDate?: Date;
+    author?: string;
+    tags?: string[];
+  };
+  noindex?: boolean;
+}
+
+const props = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead {...props} />
+  </head>
+  <body class="min-h-screen flex flex-col bg-white">
+    <Header />
+    <main class="flex-1">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

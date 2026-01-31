@@ -1,0 +1,100 @@
+---
+import { amazonLink, affiliateLinkAttrs } from '@/utils/affiliate';
+
+export interface TableProduct {
+  name: string;
+  brand?: string;
+  asin?: string;
+  amps?: number;
+  type?: string;
+  circuits?: number | string;
+  indoor?: boolean;
+  outdoor?: boolean;
+  warranty?: string;
+  priceRange?: string;
+  rating?: number;
+  badge?: string;
+}
+
+export interface Props {
+  products: TableProduct[];
+  showBadge?: boolean;
+  priceDisclaimer?: string;
+}
+
+const { products, showBadge = true, priceDisclaimer } = Astro.props;
+const linkAttrs = affiliateLinkAttrs();
+---
+
+<div class="my-8">
+  <div class="table-wrapper">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Product</th>
+          <th class="px-4 py-3 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">Amps</th>
+          <th class="px-4 py-3 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">Type</th>
+          <th class="px-4 py-3 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">Circuits</th>
+          <th class="px-4 py-3 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">Use</th>
+          <th class="px-4 py-3 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">Rating</th>
+          <th class="px-4 py-3 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">Price</th>
+          <th class="px-4 py-3 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider"></th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-200">
+        {products.map((product) => {
+          const amazonUrl = product.asin ? amazonLink(product.asin) : undefined;
+          const useLocation = [
+            product.indoor ? 'Indoor' : null,
+            product.outdoor ? 'Outdoor' : null,
+          ].filter(Boolean).join('/');
+
+          return (
+            <tr class="hover:bg-gray-50">
+              <td class="px-4 py-4">
+                <div class="flex flex-col">
+                  {showBadge && product.badge && (
+                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-primary-100 text-primary-800 w-fit mb-1">
+                      {product.badge}
+                    </span>
+                  )}
+                  <span class="font-medium text-gray-900">{product.name}</span>
+                  {product.brand && <span class="text-sm text-gray-500">{product.brand}</span>}
+                </div>
+              </td>
+              <td class="px-4 py-4 text-center text-sm text-gray-600">{product.amps}A</td>
+              <td class="px-4 py-4 text-center text-sm text-gray-600 capitalize">{product.type}</td>
+              <td class="px-4 py-4 text-center text-sm text-gray-600">{product.circuits || 'Whole House'}</td>
+              <td class="px-4 py-4 text-center text-sm text-gray-600">{useLocation || 'N/A'}</td>
+              <td class="px-4 py-4 text-center">
+                {product.rating && (
+                  <div class="flex items-center justify-center gap-1">
+                    <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                    <span class="text-sm text-gray-600">{product.rating}</span>
+                  </div>
+                )}
+              </td>
+              <td class="px-4 py-4 text-center text-sm font-medium text-gray-900">{product.priceRange}</td>
+              <td class="px-4 py-4 text-center">
+                {amazonUrl && (
+                  <a
+                    href={amazonUrl}
+                    class="affiliate-btn-secondary text-sm whitespace-nowrap"
+                    {...linkAttrs}
+                  >
+                    Check Price
+                  </a>
+                )}
+              </td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  </div>
+  {priceDisclaimer && (
+    <p class="mt-2 text-xs text-gray-500 italic">{priceDisclaimer}</p>
+  )}
+</div>

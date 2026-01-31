@@ -1,0 +1,193 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Transfer Switch Size Calculator"
+  description="Free calculator to find the right transfer switch size for your generator. Enter your specs and get personalized recommendations."
+>
+  <div class="py-12 md:py-16">
+    <div class="container-narrow">
+      <header class="mb-8 text-center">
+        <h1 class="text-4xl font-bold text-gray-900 mb-4">Transfer Switch Size Calculator</h1>
+        <p class="text-xl text-gray-600">
+          Find the right transfer switch size based on your generator and home electrical needs.
+        </p>
+      </header>
+
+      <div class="bg-white border border-gray-200 rounded-lg p-8 shadow-sm">
+        <div id="calculator" class="space-y-6">
+          <!-- Calculator Form -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2" for="panel-amps">
+              Main Electrical Panel Size
+            </label>
+            <select
+              id="panel-amps"
+              class="w-full rounded-lg border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+            >
+              <option value="">Select your panel size...</option>
+              <option value="100">100 Amp</option>
+              <option value="150">150 Amp</option>
+              <option value="200">200 Amp</option>
+              <option value="400">400 Amp</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2" for="generator-watts">
+              Generator Wattage
+            </label>
+            <input
+              type="number"
+              id="generator-watts"
+              placeholder="e.g., 7500"
+              class="w-full rounded-lg border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+            />
+            <p class="mt-1 text-sm text-gray-500">Enter your generator's running (rated) watts</p>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+              Transfer Switch Type Preference
+            </label>
+            <div class="flex gap-4">
+              <label class="flex items-center">
+                <input type="radio" name="switch-type" value="manual" class="text-primary-600 focus:ring-primary-500" checked />
+                <span class="ml-2 text-gray-700">Manual</span>
+              </label>
+              <label class="flex items-center">
+                <input type="radio" name="switch-type" value="automatic" class="text-primary-600 focus:ring-primary-500" />
+                <span class="ml-2 text-gray-700">Automatic</span>
+              </label>
+            </div>
+          </div>
+
+          <button
+            id="calculate-btn"
+            class="w-full affiliate-btn"
+          >
+            Calculate Recommended Size
+          </button>
+        </div>
+
+        <!-- Results Section (hidden by default) -->
+        <div id="results" class="hidden mt-8 pt-8 border-t border-gray-200">
+          <h2 class="text-xl font-bold text-gray-900 mb-4">Your Recommendation</h2>
+          <div class="bg-primary-50 rounded-lg p-6 mb-6">
+            <p class="text-sm text-primary-700 font-medium">Recommended Transfer Switch Size</p>
+            <p id="result-size" class="text-3xl font-bold text-primary-900">30 Amp</p>
+          </div>
+          <div id="result-explanation" class="text-gray-600 mb-6">
+            Based on your generator wattage and panel size, a 30 amp transfer switch is recommended.
+          </div>
+          <div class="bg-gray-50 rounded-lg p-4">
+            <p class="text-sm text-gray-600 mb-2"><strong>Note:</strong> This is a general recommendation. For a complete assessment, consult a licensed electrician who can evaluate your specific electrical system.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Educational Content -->
+      <div class="mt-12 prose prose-lg max-w-none">
+        <h2>How to Size a Transfer Switch</h2>
+        <p>
+          Choosing the correct transfer switch size is crucial for safe and effective backup power. Here's what you need to consider:
+        </p>
+
+        <h3>Match Your Generator Output</h3>
+        <p>
+          Your transfer switch should match your generator's output capacity. A common formula:
+        </p>
+        <ul>
+          <li><strong>Watts ÷ Volts = Amps</strong></li>
+          <li>Example: 7,500W ÷ 240V = 31.25A → Use a 30A transfer switch</li>
+        </ul>
+
+        <h3>Consider Your Electrical Panel</h3>
+        <p>
+          The transfer switch should not exceed your main panel's capacity. Most homes have 100A, 150A, or 200A service.
+        </p>
+
+        <h3>Common Transfer Switch Sizes</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Switch Size</th>
+              <th>Generator Range</th>
+              <th>Typical Use</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>30 Amp</td>
+              <td>5,000 - 7,500W</td>
+              <td>Portable generators, essential circuits</td>
+            </tr>
+            <tr>
+              <td>50 Amp</td>
+              <td>10,000 - 12,000W</td>
+              <td>Large portable or small standby generators</td>
+            </tr>
+            <tr>
+              <td>100 Amp</td>
+              <td>15,000 - 22,000W</td>
+              <td>Whole-house standby generators</td>
+            </tr>
+            <tr>
+              <td>200 Amp</td>
+              <td>22,000W+</td>
+              <td>Large homes, service entrance rated</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  const calculateBtn = document.getElementById('calculate-btn');
+  const resultsSection = document.getElementById('results');
+  const resultSize = document.getElementById('result-size');
+  const resultExplanation = document.getElementById('result-explanation');
+
+  calculateBtn?.addEventListener('click', () => {
+    const panelAmps = (document.getElementById('panel-amps') as HTMLSelectElement)?.value;
+    const generatorWatts = parseInt((document.getElementById('generator-watts') as HTMLInputElement)?.value || '0');
+    const switchType = (document.querySelector('input[name="switch-type"]:checked') as HTMLInputElement)?.value;
+
+    if (!panelAmps || !generatorWatts) {
+      alert('Please fill in all fields');
+      return;
+    }
+
+    // Calculate recommended amps (watts / 240V)
+    const calculatedAmps = generatorWatts / 240;
+    let recommendedSize: number;
+
+    if (calculatedAmps <= 30) {
+      recommendedSize = 30;
+    } else if (calculatedAmps <= 50) {
+      recommendedSize = 50;
+    } else if (calculatedAmps <= 100) {
+      recommendedSize = 100;
+    } else {
+      recommendedSize = 200;
+    }
+
+    // Ensure we don't exceed panel capacity
+    const panelLimit = parseInt(panelAmps);
+    if (recommendedSize > panelLimit) {
+      recommendedSize = panelLimit;
+    }
+
+    resultSize!.textContent = `${recommendedSize} Amp`;
+    resultExplanation!.innerHTML = `
+      <p>Based on your ${generatorWatts.toLocaleString()}W generator (≈${Math.round(calculatedAmps)}A at 240V) and ${panelAmps}A panel, we recommend a <strong>${recommendedSize} amp ${switchType} transfer switch</strong>.</p>
+      <p class="mt-2">This size provides adequate capacity for your generator while staying within your electrical panel's limits.</p>
+    `;
+
+    resultsSection?.classList.remove('hidden');
+    resultsSection?.scrollIntoView({ behavior: 'smooth' });
+  });
+</script>

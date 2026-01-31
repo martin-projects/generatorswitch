@@ -1,0 +1,74 @@
+---
+import Navigation from './Navigation.astro';
+import siteData from '@/data/site.json';
+---
+
+<header class="sticky top-0 z-50 bg-white border-b border-gray-200">
+  <div class="container-wide">
+    <div class="flex items-center justify-between h-16">
+      <!-- Logo -->
+      <a href="/" class="flex items-center space-x-2 group">
+        <svg
+          class="w-8 h-8 text-primary-600"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M13 10V3L4 14h7v7l9-11h-7z"
+          />
+        </svg>
+        <span class="text-lg font-bold text-gray-900 group-hover:text-primary-600 transition-colors">
+          {siteData.name}
+        </span>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex items-center space-x-1">
+        <Navigation />
+      </nav>
+
+      <!-- Mobile Menu Button -->
+      <button
+        type="button"
+        class="md:hidden p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg"
+        aria-label="Toggle menu"
+        id="mobile-menu-button"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Navigation -->
+  <div class="hidden md:hidden border-t border-gray-200" id="mobile-menu">
+    <nav class="container-wide py-4">
+      <Navigation mobile />
+    </nav>
+  </div>
+</header>
+
+<script>
+  const menuButton = document.getElementById('mobile-menu-button');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  menuButton?.addEventListener('click', () => {
+    const isHidden = mobileMenu?.classList.contains('hidden');
+    if (isHidden) {
+      mobileMenu?.classList.remove('hidden');
+    } else {
+      mobileMenu?.classList.add('hidden');
+    }
+  });
+</script>

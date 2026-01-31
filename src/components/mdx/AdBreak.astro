@@ -1,0 +1,28 @@
+---
+export interface Props {
+  slot?: 'leaderboard' | 'rectangle' | 'native';
+  position?: number;
+}
+
+const { slot = 'rectangle', position = 0 } = Astro.props;
+
+// This component is a placeholder for future ad integration
+// It creates semantic break points for ad insertion
+// When ads are enabled, this will render the ad code
+
+const slotHeights = {
+  leaderboard: 'min-h-[90px]',
+  rectangle: 'min-h-[250px]',
+  native: 'min-h-[100px]',
+};
+---
+
+<!-- Ad Placeholder - will be populated when ads are enabled -->
+<div
+  class={`my-8 ${slotHeights[slot]} bg-transparent`}
+  data-ad-slot={slot}
+  data-ad-position={position}
+  aria-hidden="true"
+>
+  <!-- Ad content will be injected here -->
+</div>

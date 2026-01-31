@@ -1,0 +1,50 @@
+---
+import type { Product } from '@/utils/affiliate';
+
+export interface Props {
+  product: Product;
+  reviewRating?: number;
+  reviewCount?: number;
+}
+
+const { product, reviewRating, reviewCount } = Astro.props;
+
+const schema: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: product.name,
+  brand: {
+    '@type': 'Brand',
+    name: product.brand,
+  },
+  description: product.bestFor,
+  sku: product.model,
+};
+
+if (reviewRating && reviewCount) {
+  schema.aggregateRating = {
+    '@type': 'AggregateRating',
+    ratingValue: reviewRating,
+    reviewCount: reviewCount,
+    bestRating: 5,
+    worstRating: 1,
+  };
+}
+
+if (product.rating) {
+  schema.review = {
+    '@type': 'Review',
+    reviewRating: {
+      '@type': 'Rating',
+      ratingValue: product.rating,
+      bestRating: 5,
+    },
+    author: {
+      '@type': 'Organization',
+      name: 'Generator Switch Guide',
+    },
+  };
+}
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

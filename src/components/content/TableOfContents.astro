@@ -1,0 +1,37 @@
+---
+export interface TocItem {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+export interface Props {
+  headings: TocItem[];
+}
+
+const { headings } = Astro.props;
+
+// Filter to only h2 and h3
+const tocItems = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
+---
+
+{tocItems.length > 0 && (
+  <nav class="toc bg-gray-50 rounded-lg p-6 mb-8" aria-label="Table of contents">
+    <h2 class="text-lg font-bold text-gray-900 mb-4">Table of Contents</h2>
+    <ul class="space-y-2">
+      {tocItems.map((heading) => (
+        <li class={heading.depth === 3 ? 'ml-4' : ''}>
+          <a
+            href={`#${heading.slug}`}
+            class:list={[
+              'block text-gray-600 hover:text-primary-600 transition-colors',
+              heading.depth === 2 ? 'font-medium' : 'text-sm'
+            ]}
+          >
+            {heading.text}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+)}

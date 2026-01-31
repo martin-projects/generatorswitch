@@ -1,0 +1,26 @@
+---
+import siteData from '@/data/site.json';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: siteData.name,
+  description: siteData.description,
+  url: siteData.url,
+  publisher: {
+    '@type': 'Organization',
+    name: siteData.name,
+    logo: {
+      '@type': 'ImageObject',
+      url: `${siteData.url}/logo.png`,
+    },
+  },
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: `${siteData.url}/search?q={search_term_string}`,
+    'query-input': 'required name=search_term_string',
+  },
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

@@ -1,0 +1,106 @@
+{
+  "transferSwitches": [
+    {
+      "id": "reliance-310crk",
+      "name": "Reliance Controls 310CRK",
+      "brand": "Reliance Controls",
+      "model": "310CRK",
+      "asin": "B000BQM9HQ",
+      "amps": 30,
+      "type": "manual",
+      "circuits": 10,
+      "indoor": true,
+      "outdoor": false,
+      "warranty": "5 years",
+      "priceRange": "$250 - $350",
+      "rating": 4.6,
+      "bestFor": "Most homeowners with portable generators",
+      "pros": [
+        "Easy DIY installation",
+        "10 circuit capacity",
+        "Includes inlet box",
+        "Great value for money"
+      ],
+      "cons": [
+        "Indoor use only",
+        "Manual operation required"
+      ]
+    },
+    {
+      "id": "generac-rxsw200a3",
+      "name": "Generac RXSW200A3",
+      "brand": "Generac",
+      "model": "RXSW200A3",
+      "asin": "B00IKVLEFE",
+      "amps": 200,
+      "type": "automatic",
+      "circuits": null,
+      "indoor": true,
+      "outdoor": true,
+      "warranty": "5 years",
+      "priceRange": "$500 - $700",
+      "rating": 4.7,
+      "bestFor": "Whole-house standby generator systems",
+      "pros": [
+        "Automatic operation",
+        "Works with any Generac standby",
+        "Service rated",
+        "NEMA 3R outdoor rated"
+      ],
+      "cons": [
+        "Requires professional installation",
+        "Higher price point"
+      ]
+    },
+    {
+      "id": "reliance-306lrk",
+      "name": "Reliance Controls 306LRK",
+      "brand": "Reliance Controls",
+      "model": "306LRK",
+      "asin": "B001GSELEO",
+      "amps": 30,
+      "type": "manual",
+      "circuits": 6,
+      "indoor": true,
+      "outdoor": false,
+      "warranty": "5 years",
+      "priceRange": "$180 - $250",
+      "rating": 4.5,
+      "bestFor": "Budget-conscious homeowners",
+      "pros": [
+        "Most affordable option",
+        "Simple installation",
+        "Compact size"
+      ],
+      "cons": [
+        "Only 6 circuits",
+        "No inlet box included"
+      ]
+    },
+    {
+      "id": "generac-6853",
+      "name": "Generac 6853 Home Link",
+      "brand": "Generac",
+      "model": "6853",
+      "asin": "B00E9S6D7G",
+      "amps": 30,
+      "type": "manual",
+      "circuits": 10,
+      "indoor": true,
+      "outdoor": false,
+      "warranty": "2 years",
+      "priceRange": "$300 - $400",
+      "rating": 4.4,
+      "bestFor": "Generac portable generator owners",
+      "pros": [
+        "Pre-wired for easy install",
+        "LED power indicators",
+        "Upgradeable to 50A"
+      ],
+      "cons": [
+        "Pricier than competitors",
+        "Shorter warranty"
+      ]
+    }
+  ]
+}

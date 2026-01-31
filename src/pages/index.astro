@@ -1,0 +1,141 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import WebsiteSchema from '@/components/seo/WebsiteSchema.astro';
+import { getCollection } from 'astro:content';
+import siteData from '@/data/site.json';
+
+const allArticles = await getCollection('articles');
+
+const featuredArticles = allArticles
+  .filter((a) => a.data.featured)
+  .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime())
+  .slice(0, 3);
+
+const recentArticles = allArticles
+  .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime())
+  .slice(0, 6);
+
+const guides = allArticles.filter((a) => a.data.category === 'guides').slice(0, 4);
+const reviews = allArticles.filter((a) => a.data.category === 'reviews').slice(0, 4);
+---
+
+<BaseLayout
+  title={siteData.name}
+  description={siteData.description}
+>
+  <WebsiteSchema />
+
+  <!-- Hero Section -->
+  <section class="bg-gradient-to-br from-primary-600 to-primary-800 text-white py-16 md:py-24">
+    <div class="container-wide">
+      <div class="max-w-3xl">
+        <h1 class="text-4xl md:text-5xl font-bold mb-6 text-balance">
+          Your Complete Guide to Generator Transfer Switches
+        </h1>
+        <p class="text-xl text-primary-100 mb-8">
+          Expert guides, honest reviews, and helpful tools to help you choose, install, and maintain the right transfer switch for your home backup power system.
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="/guides/" class="bg-white text-primary-700 font-semibold px-6 py-3 rounded-lg hover:bg-primary-50 transition-colors">
+            Browse Guides
+          </a>
+          <a href="/tools/" class="border-2 border-white text-white font-semibold px-6 py-3 rounded-lg hover:bg-white/10 transition-colors">
+            Try Our Calculators
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Links -->
+  <section class="py-12 bg-gray-50">
+    <div class="container-wide">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <a href="/guides/manual-vs-automatic-transfer-switch/" class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow text-center group">
+          <div class="w-12 h-12 bg-primary-100 text-primary-600 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:bg-primary-600 group-hover:text-white transition-colors">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
+            </svg>
+          </div>
+          <h3 class="font-semibold text-gray-900">Manual vs Auto</h3>
+          <p class="text-sm text-gray-600 mt-1">Compare switch types</p>
+        </a>
+
+        <a href="/tools/transfer-switch-size-calculator/" class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow text-center group">
+          <div class="w-12 h-12 bg-primary-100 text-primary-600 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:bg-primary-600 group-hover:text-white transition-colors">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <h3 class="font-semibold text-gray-900">Size Calculator</h3>
+          <p class="text-sm text-gray-600 mt-1">Find your match</p>
+        </a>
+
+        <a href="/reviews/best-transfer-switches/" class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow text-center group">
+          <div class="w-12 h-12 bg-primary-100 text-primary-600 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:bg-primary-600 group-hover:text-white transition-colors">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+            </svg>
+          </div>
+          <h3 class="font-semibold text-gray-900">Best Switches</h3>
+          <p class="text-sm text-gray-600 mt-1">Top picks for 2025</p>
+        </a>
+
+        <a href="/guides/transfer-switch-installation-cost/" class="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow text-center group">
+          <div class="w-12 h-12 bg-primary-100 text-primary-600 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:bg-primary-600 group-hover:text-white transition-colors">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h3 class="font-semibold text-gray-900">Installation Cost</h3>
+          <p class="text-sm text-gray-600 mt-1">Budget planning</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Recent Articles -->
+  <section class="py-16">
+    <div class="container-wide">
+      <h2 class="text-3xl font-bold text-gray-900 mb-8">Latest Guides & Reviews</h2>
+
+      {recentArticles.length > 0 ? (
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {recentArticles.map((article) => (
+            <article class="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow">
+              <a href={`/${article.data.category}/${article.slug}/`} class="block p-6">
+                <span class="inline-block px-2 py-1 text-xs font-medium bg-primary-100 text-primary-700 rounded mb-3 capitalize">
+                  {article.data.category}
+                </span>
+                <h3 class="text-lg font-bold text-gray-900 mb-2 line-clamp-2 hover:text-primary-600 transition-colors">
+                  {article.data.title}
+                </h3>
+                <p class="text-gray-600 text-sm line-clamp-2">
+                  {article.data.description}
+                </p>
+              </a>
+            </article>
+          ))}
+        </div>
+      ) : (
+        <p class="text-gray-600">Check back soon for guides and reviews.</p>
+      )}
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-16 bg-gray-900 text-white">
+    <div class="container-wide text-center">
+      <h2 class="text-3xl font-bold mb-4">Not Sure Where to Start?</h2>
+      <p class="text-gray-400 max-w-2xl mx-auto mb-8">
+        Use our free calculator to find the right transfer switch size for your generator and home. Get personalized recommendations in seconds.
+      </p>
+      <a href="/tools/transfer-switch-size-calculator/" class="bg-primary-600 text-white font-semibold px-8 py-4 rounded-lg hover:bg-primary-500 transition-colors inline-flex items-center gap-2">
+        Try the Calculator
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+        </svg>
+      </a>
+    </div>
+  </section>
+</BaseLayout>

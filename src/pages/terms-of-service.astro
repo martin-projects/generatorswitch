@@ -1,0 +1,121 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import siteData from '@/data/site.json';
+---
+
+<BaseLayout
+  title="Terms of Service"
+  description="Terms of Service for Generator Switch Guide. Please read these terms before using our website."
+>
+  <article class="py-12 md:py-16">
+    <div class="container-narrow">
+      <h1 class="text-4xl font-bold text-gray-900 mb-6">Terms of Service</h1>
+
+      <div class="prose prose-lg max-w-none">
+        <p class="text-sm text-gray-500">Effective Date: January 2025</p>
+
+        <p>
+          Welcome to Generator Switch Guide. By accessing or using our website (generatorswitchguide.com), you agree to these Terms of Service. If you do not agree, please do not use our site.
+        </p>
+
+        <h2>1. Use of Content</h2>
+        <p>
+          All content on Generator Switch Guide—including text, images, graphics, and tools—is provided for informational purposes only. You may:
+        </p>
+        <ul>
+          <li>View and read content for personal, non-commercial use</li>
+          <li>Share links to our content</li>
+          <li>Quote brief excerpts with attribution and a link back</li>
+        </ul>
+        <p>
+          You may not:
+        </p>
+        <ul>
+          <li>Reproduce, copy, or republish substantial portions of our content without permission</li>
+          <li>Use our content for commercial purposes without authorization</li>
+          <li>Remove or alter any copyright or attribution notices</li>
+        </ul>
+
+        <h2>2. Disclaimer of Professional Advice</h2>
+        <p>
+          <strong>Important:</strong> Generator Switch Guide provides general information about transfer switches and related topics. Our content is not a substitute for professional advice.
+        </p>
+        <ul>
+          <li>Always consult a licensed electrician for electrical work</li>
+          <li>Check local building codes and permit requirements</li>
+          <li>Follow manufacturer instructions for any products</li>
+          <li>Verify current prices and specifications with retailers</li>
+        </ul>
+        <p>
+          Electrical work can be dangerous. We are not responsible for any injury, damage, or loss resulting from the use of information on our site.
+        </p>
+
+        <h2>3. Product Recommendations & Affiliate Links</h2>
+        <p>
+          We recommend products based on research and publicly available information. We may earn commissions through affiliate links (see our <a href="/affiliate-disclosure/">Affiliate Disclosure</a>).
+        </p>
+        <p>
+          Product specifications, prices, and availability change frequently. We strive for accuracy but cannot guarantee that all product information is current. Always verify details with the retailer before purchasing.
+        </p>
+
+        <h2>4. Interactive Tools</h2>
+        <p>
+          Our calculators and tools provide estimates based on the information you input and general guidelines. Results are for informational purposes only and should not be considered professional recommendations.
+        </p>
+
+        <h2>5. User Conduct</h2>
+        <p>
+          When using our site, you agree not to:
+        </p>
+        <ul>
+          <li>Violate any applicable laws or regulations</li>
+          <li>Interfere with or disrupt our site or servers</li>
+          <li>Attempt to access restricted areas or systems</li>
+          <li>Use automated tools to scrape or collect content</li>
+          <li>Submit false or misleading information</li>
+        </ul>
+
+        <h2>6. Intellectual Property</h2>
+        <p>
+          Generator Switch Guide and its content are protected by copyright and other intellectual property laws. Our name, logo, and branding are our property and may not be used without permission.
+        </p>
+
+        <h2>7. Third-Party Links</h2>
+        <p>
+          Our site contains links to third-party websites (retailers, manufacturers, etc.). We are not responsible for the content, policies, or practices of these external sites.
+        </p>
+
+        <h2>8. Limitation of Liability</h2>
+        <p>
+          To the maximum extent permitted by law, Generator Switch Guide and its owners shall not be liable for any direct, indirect, incidental, consequential, or punitive damages arising from:
+        </p>
+        <ul>
+          <li>Your use of or inability to use our site</li>
+          <li>Any content or information obtained from our site</li>
+          <li>Products purchased through our affiliate links</li>
+          <li>Errors or omissions in our content</li>
+        </ul>
+
+        <h2>9. Indemnification</h2>
+        <p>
+          You agree to indemnify and hold harmless Generator Switch Guide from any claims, damages, or expenses arising from your use of our site or violation of these Terms.
+        </p>
+
+        <h2>10. Changes to Terms</h2>
+        <p>
+          We may update these Terms of Service at any time. Continued use of our site after changes constitutes acceptance of the updated terms.
+        </p>
+
+        <h2>11. Governing Law</h2>
+        <p>
+          These Terms are governed by the laws of the United States. Any disputes shall be resolved in the appropriate courts.
+        </p>
+
+        <h2>12. Contact</h2>
+        <p>
+          Questions about these Terms? Contact us at <a href={`mailto:${siteData.contact.email}`}>{siteData.contact.email}</a>.
+        </p>
+      </div>
+    </div>
+  </article>
+</BaseLayout>

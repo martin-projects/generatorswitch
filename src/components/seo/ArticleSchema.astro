@@ -1,0 +1,43 @@
+---
+import siteData from '@/data/site.json';
+import type { CollectionEntry } from 'astro:content';
+
+export interface Props {
+  article: CollectionEntry<'articles'>['data'];
+  slug: string;
+}
+
+const { article, slug } = Astro.props;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: article.title,
+  description: article.description,
+  datePublished: article.publishDate.toISOString(),
+  dateModified: (article.updatedDate || article.publishDate).toISOString(),
+  author: {
+    '@type': 'Person',
+    name: article.author || 'Editorial Team',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: siteData.name,
+    logo: {
+      '@type': 'ImageObject',
+      url: `${siteData.url}/logo.png`,
+    },
+  },
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': `${siteData.url}/${article.category}/${slug}/`,
+  },
+  image: article.ogImage
+    ? `${siteData.url}${article.ogImage}`
+    : `${siteData.url}/og-default.png`,
+  articleSection: article.category,
+  keywords: article.tags?.join(', '),
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

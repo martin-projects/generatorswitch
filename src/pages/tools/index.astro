@@ -1,0 +1,93 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+const tools = [
+  {
+    title: 'Transfer Switch Size Calculator',
+    description: 'Find the right transfer switch size based on your generator wattage and home electrical needs.',
+    href: '/tools/transfer-switch-size-calculator/',
+    icon: 'calculator',
+    featured: true,
+  },
+  {
+    title: 'Wattage Calculator',
+    description: 'Calculate your total power needs by selecting the appliances you want to run during an outage.',
+    href: '/tools/wattage-calculator/',
+    icon: 'lightning',
+  },
+  {
+    title: 'Compatibility Checker',
+    description: 'Check if a transfer switch is compatible with your generator and electrical panel.',
+    href: '/tools/compatibility-checker/',
+    icon: 'check',
+  },
+  {
+    title: 'Installation Cost Estimator',
+    description: 'Get an estimate of transfer switch installation costs in your area.',
+    href: '/tools/cost-estimator/',
+    icon: 'dollar',
+  },
+];
+---
+
+<BaseLayout
+  title="Transfer Switch Tools & Calculators"
+  description="Free tools to help you choose the right transfer switch. Size calculator, wattage calculator, compatibility checker, and cost estimator."
+>
+  <div class="py-12 md:py-16">
+    <div class="container-wide">
+      <header class="mb-12 text-center">
+        <h1 class="text-4xl font-bold text-gray-900 mb-4">Tools & Calculators</h1>
+        <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+          Free interactive tools to help you choose the right transfer switch for your home and generator.
+        </p>
+      </header>
+
+      <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        {tools.map((tool) => (
+          <a
+            href={tool.href}
+            class:list={[
+              'block rounded-lg p-8 transition-all hover:shadow-lg',
+              tool.featured
+                ? 'bg-gradient-to-br from-primary-600 to-primary-700 text-white'
+                : 'bg-white border border-gray-200 hover:border-primary-300'
+            ]}
+          >
+            <div class={`w-12 h-12 rounded-lg flex items-center justify-center mb-4 ${tool.featured ? 'bg-white/20' : 'bg-primary-100'}`}>
+              {tool.icon === 'calculator' && (
+                <svg class={`w-6 h-6 ${tool.featured ? 'text-white' : 'text-primary-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                </svg>
+              )}
+              {tool.icon === 'lightning' && (
+                <svg class={`w-6 h-6 ${tool.featured ? 'text-white' : 'text-primary-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+              )}
+              {tool.icon === 'check' && (
+                <svg class={`w-6 h-6 ${tool.featured ? 'text-white' : 'text-primary-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              )}
+              {tool.icon === 'dollar' && (
+                <svg class={`w-6 h-6 ${tool.featured ? 'text-white' : 'text-primary-600'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              )}
+            </div>
+            <h2 class={`text-xl font-bold mb-2 ${tool.featured ? 'text-white' : 'text-gray-900'}`}>
+              {tool.title}
+            </h2>
+            <p class={`${tool.featured ? 'text-primary-100' : 'text-gray-600'}`}>
+              {tool.description}
+            </p>
+            <span class={`inline-block mt-4 font-medium ${tool.featured ? 'text-white' : 'text-primary-600'}`}>
+              Use tool →
+            </span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,69 @@
+{
+  "categories": [
+    {
+      "name": "Essential",
+      "appliances": [
+        { "name": "Refrigerator", "runningWatts": 150, "startingWatts": 400 },
+        { "name": "Freezer", "runningWatts": 100, "startingWatts": 350 },
+        { "name": "Sump Pump (1/2 HP)", "runningWatts": 800, "startingWatts": 2000 },
+        { "name": "Well Pump (1/2 HP)", "runningWatts": 1000, "startingWatts": 2500 },
+        { "name": "Furnace Blower", "runningWatts": 500, "startingWatts": 1000 }
+      ]
+    },
+    {
+      "name": "Lighting",
+      "appliances": [
+        { "name": "LED Light Bulb (10W)", "runningWatts": 10, "startingWatts": 10 },
+        { "name": "CFL Light Bulb (15W)", "runningWatts": 15, "startingWatts": 15 },
+        { "name": "Incandescent Bulb (60W)", "runningWatts": 60, "startingWatts": 60 },
+        { "name": "Security Lights", "runningWatts": 200, "startingWatts": 200 }
+      ]
+    },
+    {
+      "name": "Kitchen",
+      "appliances": [
+        { "name": "Microwave", "runningWatts": 1000, "startingWatts": 1500 },
+        { "name": "Coffee Maker", "runningWatts": 1000, "startingWatts": 1000 },
+        { "name": "Toaster", "runningWatts": 1100, "startingWatts": 1100 },
+        { "name": "Electric Stove (per burner)", "runningWatts": 1500, "startingWatts": 1500 },
+        { "name": "Dishwasher", "runningWatts": 1500, "startingWatts": 1800 }
+      ]
+    },
+    {
+      "name": "Heating & Cooling",
+      "appliances": [
+        { "name": "Window AC (10,000 BTU)", "runningWatts": 1200, "startingWatts": 3600 },
+        { "name": "Central AC (3 ton)", "runningWatts": 3500, "startingWatts": 7000 },
+        { "name": "Space Heater (1500W)", "runningWatts": 1500, "startingWatts": 1500 },
+        { "name": "Electric Water Heater", "runningWatts": 4500, "startingWatts": 4500 },
+        { "name": "Ceiling Fan", "runningWatts": 75, "startingWatts": 100 }
+      ]
+    },
+    {
+      "name": "Electronics",
+      "appliances": [
+        { "name": "TV (LED 55\")", "runningWatts": 100, "startingWatts": 100 },
+        { "name": "Computer Desktop", "runningWatts": 300, "startingWatts": 300 },
+        { "name": "Laptop", "runningWatts": 50, "startingWatts": 50 },
+        { "name": "WiFi Router", "runningWatts": 10, "startingWatts": 10 },
+        { "name": "Phone Charger", "runningWatts": 10, "startingWatts": 10 }
+      ]
+    },
+    {
+      "name": "Laundry",
+      "appliances": [
+        { "name": "Washing Machine", "runningWatts": 500, "startingWatts": 1200 },
+        { "name": "Electric Dryer", "runningWatts": 3000, "startingWatts": 6000 },
+        { "name": "Gas Dryer", "runningWatts": 300, "startingWatts": 600 }
+      ]
+    },
+    {
+      "name": "Medical",
+      "appliances": [
+        { "name": "CPAP Machine", "runningWatts": 100, "startingWatts": 100 },
+        { "name": "Oxygen Concentrator", "runningWatts": 300, "startingWatts": 500 },
+        { "name": "Medical Refrigerator", "runningWatts": 150, "startingWatts": 400 }
+      ]
+    }
+  ]
+}

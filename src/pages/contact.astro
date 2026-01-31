@@ -1,0 +1,63 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import siteData from '@/data/site.json';
+---
+
+<BaseLayout
+  title="Contact Us"
+  description="Get in touch with Generator Switch Guide. Questions about transfer switches, content suggestions, or partnership inquiries welcome."
+>
+  <article class="py-12 md:py-16">
+    <div class="container-narrow">
+      <h1 class="text-4xl font-bold text-gray-900 mb-6">Contact Us</h1>
+
+      <div class="prose prose-lg max-w-none mb-12">
+        <p>
+          Have a question about transfer switches? Want to suggest a topic for us to cover? We'd love to hear from you.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-12">
+        <div>
+          <h2 class="text-xl font-bold text-gray-900 mb-4">Get in Touch</h2>
+          <p class="text-gray-600 mb-6">
+            For general inquiries, content suggestions, or to report an issue with our site, please email us at:
+          </p>
+          <a
+            href={`mailto:${siteData.contact.email}`}
+            class="inline-flex items-center gap-2 text-primary-600 hover:text-primary-700 font-medium"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+            {siteData.contact.email}
+          </a>
+        </div>
+
+        <div>
+          <h2 class="text-xl font-bold text-gray-900 mb-4">FAQ</h2>
+          <div class="space-y-4">
+            <div>
+              <h3 class="font-semibold text-gray-900">Do you install transfer switches?</h3>
+              <p class="text-gray-600 text-sm mt-1">
+                No, we're an educational resource. We recommend hiring a licensed electrician for installation.
+              </p>
+            </div>
+            <div>
+              <h3 class="font-semibold text-gray-900">Can you recommend a specific product for my situation?</h3>
+              <p class="text-gray-600 text-sm mt-1">
+                Try our <a href="/tools/transfer-switch-size-calculator/" class="text-primary-600 hover:underline">size calculator</a> for personalized recommendations, or browse our <a href="/reviews/" class="text-primary-600 hover:underline">reviews</a>.
+              </p>
+            </div>
+            <div>
+              <h3 class="font-semibold text-gray-900">Do you accept guest posts or partnerships?</h3>
+              <p class="text-gray-600 text-sm mt-1">
+                We selectively work with manufacturers and industry experts. Email us with your proposal.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+</BaseLayout>

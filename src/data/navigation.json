@@ -1,0 +1,66 @@
+{
+  "main": [
+    {
+      "label": "Guides",
+      "href": "/guides/",
+      "children": [
+        { "label": "Manual vs Automatic", "href": "/guides/manual-vs-automatic-transfer-switch/" },
+        { "label": "Installation Guide", "href": "/guides/transfer-switch-installation/" },
+        { "label": "Sizing Guide", "href": "/guides/how-to-size-transfer-switch/" },
+        { "label": "All Guides", "href": "/guides/" }
+      ]
+    },
+    {
+      "label": "Reviews",
+      "href": "/reviews/",
+      "children": [
+        { "label": "Best Transfer Switches 2025", "href": "/reviews/best-transfer-switches/" },
+        { "label": "Generac Reviews", "href": "/reviews/generac-transfer-switch-review/" },
+        { "label": "Reliance Reviews", "href": "/reviews/reliance-transfer-switch-review/" },
+        { "label": "All Reviews", "href": "/reviews/" }
+      ]
+    },
+    {
+      "label": "Tools",
+      "href": "/tools/",
+      "children": [
+        { "label": "Size Calculator", "href": "/tools/transfer-switch-size-calculator/" },
+        { "label": "Wattage Calculator", "href": "/tools/wattage-calculator/" },
+        { "label": "Compatibility Checker", "href": "/tools/compatibility-checker/" },
+        { "label": "Cost Estimator", "href": "/tools/cost-estimator/" }
+      ]
+    },
+    {
+      "label": "About",
+      "href": "/about/"
+    }
+  ],
+  "footer": [
+    {
+      "title": "Resources",
+      "links": [
+        { "label": "All Guides", "href": "/guides/" },
+        { "label": "Product Reviews", "href": "/reviews/" },
+        { "label": "Calculators & Tools", "href": "/tools/" }
+      ]
+    },
+    {
+      "title": "Popular Guides",
+      "links": [
+        { "label": "Manual vs Automatic", "href": "/guides/manual-vs-automatic-transfer-switch/" },
+        { "label": "Installation Costs", "href": "/guides/transfer-switch-installation-cost/" },
+        { "label": "Sizing Your Switch", "href": "/guides/how-to-size-transfer-switch/" }
+      ]
+    },
+    {
+      "title": "Company",
+      "links": [
+        { "label": "About Us", "href": "/about/" },
+        { "label": "Contact", "href": "/contact/" },
+        { "label": "Affiliate Disclosure", "href": "/affiliate-disclosure/" },
+        { "label": "Privacy Policy", "href": "/privacy-policy/" },
+        { "label": "Terms of Service", "href": "/terms-of-service/" }
+      ]
+    }
+  ]
+}

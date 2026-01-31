@@ -1,0 +1,92 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumbs from '@/components/global/Breadcrumbs.astro';
+import AffiliateDisclosure from '@/components/global/AffiliateDisclosure.astro';
+import TableOfContents from '@/components/content/TableOfContents.astro';
+import RelatedArticles from '@/components/content/RelatedArticles.astro';
+import ArticleSchema from '@/components/seo/ArticleSchema.astro';
+import FAQSchema from '@/components/seo/FAQSchema.astro';
+import { formatDateDisplay } from '@/utils/seo';
+import { getReadingTime } from '@/utils/reading-time';
+import type { CollectionEntry } from 'astro:content';
+
+export interface Props {
+  article: CollectionEntry<'articles'>;
+  headings: { depth: number; slug: string; text: string }[];
+}
+
+const { article, headings } = Astro.props;
+const { data, body, slug } = article;
+
+const readingTime = getReadingTime(body);
+
+const breadcrumbs = [
+  { label: data.category.charAt(0).toUpperCase() + data.category.slice(1), href: `/${data.category}/` },
+  { label: data.title }
+];
+
+const showAffiliate = data.affiliateDisclosure !== 'none';
+---
+
+<BaseLayout
+  title={data.title}
+  description={data.description}
+  article={{
+    publishDate: data.publishDate,
+    updatedDate: data.updatedDate,
+    author: data.author,
+    tags: data.tags,
+  }}
+>
+  <ArticleSchema article={data} slug={slug} />
+  {data.faqs && data.faqs.length > 0 && <FAQSchema faqs={data.faqs} />}
+
+  <article class="py-8 md:py-12">
+    <div class="container-narrow">
+      <!-- Breadcrumbs -->
+      <div class="mb-6">
+        <Breadcrumbs items={breadcrumbs} />
+      </div>
+
+      <!-- Header -->
+      <header class="mb-8">
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-900 text-balance">
+          {data.title}
+        </h1>
+
+        <div class="mt-4 flex flex-wrap items-center gap-4 text-sm text-gray-600">
+          <time datetime={data.publishDate.toISOString()}>
+            {formatDateDisplay(data.publishDate)}
+          </time>
+          {data.updatedDate && (
+            <span class="text-gray-400">
+              (Updated: {formatDateDisplay(data.updatedDate)})
+            </span>
+          )}
+          <span class="text-gray-400">|</span>
+          <span>{readingTime}</span>
+        </div>
+      </header>
+
+      <!-- Affiliate Disclosure -->
+      {showAffiliate && <AffiliateDisclosure />}
+
+      <!-- Table of Contents -->
+      {data.showToc && <TableOfContents headings={headings} />}
+
+      <!-- Content -->
+      <div class="prose prose-lg max-w-none">
+        <slot />
+      </div>
+
+      <!-- Related Articles -->
+      {data.showRelated && (
+        <RelatedArticles
+          currentSlug={slug}
+          relatedSlugs={data.relatedArticles}
+          category={data.category}
+        />
+      )}
+    </div>
+  </article>
+</BaseLayout>

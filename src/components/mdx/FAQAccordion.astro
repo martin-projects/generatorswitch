@@ -1,0 +1,56 @@
+---
+export interface FAQ {
+  question: string;
+  answer: string;
+}
+
+export interface Props {
+  faqs: FAQ[];
+  generateSchema?: boolean;
+}
+
+const { faqs, generateSchema = false } = Astro.props;
+
+// If generateSchema is true, we include the schema inline
+// Otherwise, it should be added separately via FAQSchema component
+const schema = generateSchema ? {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.answer,
+    },
+  })),
+} : null;
+---
+
+<section class="my-8">
+  <h2 class="text-2xl font-bold text-gray-900 mb-6">Frequently Asked Questions</h2>
+  <div class="space-y-4">
+    {faqs.map((faq, index) => (
+      <details class="group bg-gray-50 rounded-lg" open={index === 0}>
+        <summary class="flex items-center justify-between cursor-pointer p-4 font-medium text-gray-900 hover:bg-gray-100 rounded-lg transition-colors">
+          <span>{faq.question}</span>
+          <svg
+            class="w-5 h-5 text-gray-500 transform group-open:rotate-180 transition-transform"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </summary>
+        <div class="px-4 pb-4 text-gray-600">
+          <p>{faq.answer}</p>
+        </div>
+      </details>
+    ))}
+  </div>
+</section>
+
+{generateSchema && schema && (
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+)}

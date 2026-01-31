@@ -1,0 +1,32 @@
+{
+  "name": "generatorswitch",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Generator Transfer Switch Guide - Comprehensive resource for transfer switches",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://local_proxy@127.0.0.1:45370/git/martin-projects/generatorswitch"
+  },
+  "keywords": ["generator", "transfer-switch", "electrical", "home-improvement"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@astrojs/mdx": "^4.3.13",
+    "@astrojs/react": "^4.4.2",
+    "@astrojs/sitemap": "^3.7.0",
+    "@astrojs/tailwind": "^6.0.2",
+    "@tailwindcss/forms": "^0.5.11",
+    "@tailwindcss/typography": "^0.5.19",
+    "astro": "^5.17.1",
+    "astro-icon": "^1.1.5",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "tailwindcss": "^3.4.19"
+  }
+}

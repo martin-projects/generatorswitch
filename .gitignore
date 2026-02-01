@@ -1,5 +1,5 @@
 # build output
-dist/
+# dist/ - temporarily committed for Hostinger deployment
 
 # dependencies
 node_modules/

@@ -3,27 +3,333 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 ---
 
 <BaseLayout
-  title="Installation Cost Estimator"
-  description="Estimate the cost of transfer switch installation in your area based on switch type and complexity."
+  title="Transfer Switch Installation Cost Estimator"
+  description="Calculate transfer switch installation costs based on switch type, complexity, and your location. Get accurate estimates instantly."
 >
   <div class="py-12 md:py-16">
     <div class="container-narrow">
       <header class="mb-8 text-center">
         <h1 class="text-4xl font-bold text-gray-900 mb-4">Installation Cost Estimator</h1>
         <p class="text-xl text-gray-600">
-          Get an estimate of what transfer switch installation will cost in your area.
+          Get an accurate estimate of what transfer switch installation will cost in your area.
         </p>
       </header>
 
       <div class="bg-white border border-gray-200 rounded-lg p-8 shadow-sm">
-        <div class="text-center py-12 text-gray-500">
-          <svg class="w-16 h-16 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          <p class="text-lg font-medium">Interactive Estimator Coming Soon</p>
-          <p class="text-sm mt-2">See our <a href="/guides/transfer-switch-installation-cost/" class="text-primary-600 hover:underline">installation cost guide</a> for detailed pricing.</p>
+        <form id="cost-form" class="space-y-6">
+          <!-- Switch Type -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-3">Transfer Switch Type</label>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <label class="relative flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50">
+                <input type="radio" name="switch-type" value="manual" class="h-4 w-4 text-primary-600" checked>
+                <span class="ml-3">
+                  <span class="block text-sm font-medium text-gray-900">Manual Transfer Switch</span>
+                  <span class="block text-sm text-gray-500">You flip switches during outage</span>
+                </span>
+              </label>
+              <label class="relative flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50">
+                <input type="radio" name="switch-type" value="automatic" class="h-4 w-4 text-primary-600">
+                <span class="ml-3">
+                  <span class="block text-sm font-medium text-gray-900">Automatic Transfer Switch</span>
+                  <span class="block text-sm text-gray-500">Switches automatically</span>
+                </span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Amperage -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-3">Switch Amperage</label>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+              <label class="relative flex items-center justify-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
+                <input type="radio" name="amperage" value="30" class="sr-only" checked>
+                <span class="text-sm font-medium amp-label">30 Amp</span>
+              </label>
+              <label class="relative flex items-center justify-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
+                <input type="radio" name="amperage" value="50" class="sr-only">
+                <span class="text-sm font-medium amp-label">50 Amp</span>
+              </label>
+              <label class="relative flex items-center justify-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
+                <input type="radio" name="amperage" value="100" class="sr-only">
+                <span class="text-sm font-medium amp-label">100 Amp</span>
+              </label>
+              <label class="relative flex items-center justify-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
+                <input type="radio" name="amperage" value="200" class="sr-only">
+                <span class="text-sm font-medium amp-label">200 Amp</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Installation Complexity -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-3">Installation Complexity</label>
+            <select name="complexity" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+              <option value="simple">Simple - Easy panel access, no upgrades needed</option>
+              <option value="standard" selected>Standard - Typical home installation</option>
+              <option value="complex">Complex - Panel upgrades or difficult access</option>
+            </select>
+          </div>
+
+          <!-- Region -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-3">Your Region</label>
+            <select name="region" class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+              <option value="midwest">Midwest (Average costs)</option>
+              <option value="southeast">Southeast (10-20% below average)</option>
+              <option value="southwest">Southwest (Average costs)</option>
+              <option value="northeast">Northeast (20-40% above average)</option>
+              <option value="west">West Coast (25-50% above average)</option>
+            </select>
+          </div>
+
+          <!-- Additional Options -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-3">Additional Work Needed</label>
+            <div class="space-y-3">
+              <label class="flex items-center">
+                <input type="checkbox" name="inlet-box" class="h-4 w-4 text-primary-600 rounded">
+                <span class="ml-3 text-sm text-gray-700">Power inlet box installation (+$100-200)</span>
+              </label>
+              <label class="flex items-center">
+                <input type="checkbox" name="permit" class="h-4 w-4 text-primary-600 rounded" checked>
+                <span class="ml-3 text-sm text-gray-700">Permit and inspection (+$75-150)</span>
+              </label>
+              <label class="flex items-center">
+                <input type="checkbox" name="panel-work" class="h-4 w-4 text-primary-600 rounded">
+                <span class="ml-3 text-sm text-gray-700">Panel modifications needed (+$200-500)</span>
+              </label>
+            </div>
+          </div>
+
+          <button type="submit" class="w-full affiliate-btn text-center py-4 text-lg">
+            Calculate Installation Cost
+          </button>
+        </form>
+
+        <!-- Results -->
+        <div id="results" class="hidden mt-8 pt-8 border-t border-gray-200">
+          <h2 class="text-2xl font-bold text-gray-900 mb-6">Your Estimated Costs</h2>
+
+          <div class="grid md:grid-cols-2 gap-6 mb-8">
+            <div class="bg-gray-50 rounded-lg p-6">
+              <h3 class="text-sm font-medium text-gray-500 uppercase tracking-wide">Equipment Cost</h3>
+              <p class="text-3xl font-bold text-gray-900 mt-2" id="equipment-cost">$0</p>
+              <p class="text-sm text-gray-600 mt-1">Transfer switch + accessories</p>
+            </div>
+            <div class="bg-gray-50 rounded-lg p-6">
+              <h3 class="text-sm font-medium text-gray-500 uppercase tracking-wide">Labor Cost</h3>
+              <p class="text-3xl font-bold text-gray-900 mt-2" id="labor-cost">$0</p>
+              <p class="text-sm text-gray-600 mt-1">Professional installation</p>
+            </div>
+          </div>
+
+          <div class="bg-primary-50 rounded-lg p-6 mb-8">
+            <div class="flex items-center justify-between">
+              <div>
+                <h3 class="text-sm font-medium text-primary-800 uppercase tracking-wide">Total Estimated Cost</h3>
+                <p class="text-4xl font-bold text-primary-900 mt-2" id="total-cost">$0</p>
+              </div>
+              <div class="text-right">
+                <p class="text-sm text-primary-700" id="cost-range">Range: $0 - $0</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white border border-gray-200 rounded-lg p-6 mb-8">
+            <h3 class="font-semibold text-gray-900 mb-4">Cost Breakdown</h3>
+            <div class="space-y-3" id="breakdown-list">
+              <!-- Populated by JavaScript -->
+            </div>
+          </div>
+
+          <!-- Recommended Products -->
+          <div id="recommended-products" class="mb-8">
+            <h3 class="font-semibold text-gray-900 mb-4">Recommended Transfer Switches</h3>
+            <div class="grid md:grid-cols-2 gap-4" id="product-list">
+              <!-- Populated by JavaScript -->
+            </div>
+          </div>
+
+          <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+            <p class="text-sm text-yellow-800">
+              <strong>Note:</strong> This is an estimate based on average costs. Actual prices vary by contractor, specific requirements, and market conditions. Always get 3+ quotes from licensed electricians.
+            </p>
+          </div>
         </div>
+      </div>
+
+      <!-- Additional Info -->
+      <div class="mt-8 text-center">
+        <p class="text-gray-600">
+          Want more details? Read our
+          <a href="/guides/transfer-switch-installation-cost/" class="text-primary-600 hover:underline font-medium">complete installation cost guide</a>.
+        </p>
       </div>
     </div>
   </div>
+
+  <style>
+    input[type="radio"]:checked + .amp-label {
+      color: #2563eb;
+      font-weight: 600;
+    }
+    input[type="radio"]:checked ~ .amp-label {
+      color: #2563eb;
+      font-weight: 600;
+    }
+    label:has(input[type="radio"]:checked) {
+      border-color: #2563eb;
+      background-color: #eff6ff;
+    }
+    label:has(input[name="amperage"]:checked) {
+      border-color: #2563eb;
+      background-color: #eff6ff;
+    }
+  </style>
+
+  <script>
+    const products = {
+      manual30: [
+        { name: 'Reliance Controls 31410CRK', desc: '30A, 10-circuit complete kit', price: '$280-$350', url: 'https://www.amazon.com/dp/B000HS2L3O?tag=112233445504b-20' },
+        { name: 'Reliance Controls 206A', desc: '30A, 6-circuit budget option', price: '$170-$220', url: 'https://www.amazon.com/dp/B013SG7K4Q?tag=112233445504b-20' }
+      ],
+      manual50: [
+        { name: 'Reliance Controls TRC1005B', desc: '50A, 10-circuit kit', price: '$350-$450', url: 'https://www.amazon.com/dp/B00PPCPZGC?tag=112233445504b-20' }
+      ],
+      manual100: [
+        { name: 'Generac 6853 Home Link', desc: '30A upgradeable to higher capacity', price: '$320-$380', url: 'https://www.amazon.com/dp/B00V4NDG12?tag=112233445504b-20' }
+      ],
+      automatic: [
+        { name: 'Generac RXSW200A3', desc: '200A automatic transfer switch', price: '$550-$700', url: 'https://www.amazon.com/dp/B0745H7CHL?tag=112233445504b-20' }
+      ]
+    };
+
+    const baseCosts = {
+      manual: {
+        30: { equipment: [200, 350], labor: [300, 500] },
+        50: { equipment: [300, 450], labor: [350, 600] },
+        100: { equipment: [400, 600], labor: [450, 750] },
+        200: { equipment: [500, 800], labor: [550, 900] }
+      },
+      automatic: {
+        30: { equipment: [300, 500], labor: [400, 650] },
+        50: { equipment: [400, 650], labor: [500, 800] },
+        100: { equipment: [450, 750], labor: [550, 900] },
+        200: { equipment: [550, 1200], labor: [650, 1200] }
+      }
+    };
+
+    const complexityMultiplier = {
+      simple: 0.85,
+      standard: 1.0,
+      complex: 1.35
+    };
+
+    const regionMultiplier = {
+      midwest: 1.0,
+      southeast: 0.85,
+      southwest: 1.0,
+      northeast: 1.3,
+      west: 1.4
+    };
+
+    document.getElementById('cost-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(e.target);
+      const switchType = formData.get('switch-type');
+      const amperage = formData.get('amperage');
+      const complexity = formData.get('complexity');
+      const region = formData.get('region');
+      const hasInlet = formData.get('inlet-box') === 'on';
+      const hasPermit = formData.get('permit') === 'on';
+      const hasPanelWork = formData.get('panel-work') === 'on';
+
+      const costs = baseCosts[switchType][amperage];
+      const compMult = complexityMultiplier[complexity];
+      const regMult = regionMultiplier[region];
+
+      let equipmentLow = Math.round(costs.equipment[0] * regMult);
+      let equipmentHigh = Math.round(costs.equipment[1] * regMult);
+      let laborLow = Math.round(costs.labor[0] * compMult * regMult);
+      let laborHigh = Math.round(costs.labor[1] * compMult * regMult);
+
+      const breakdown = [];
+      breakdown.push({ item: `${switchType === 'manual' ? 'Manual' : 'Automatic'} Transfer Switch (${amperage}A)`, cost: `$${equipmentLow} - $${equipmentHigh}` });
+      breakdown.push({ item: 'Professional Installation', cost: `$${laborLow} - $${laborHigh}` });
+
+      if (hasInlet) {
+        const inletCost = [100, 200];
+        equipmentLow += inletCost[0];
+        equipmentHigh += inletCost[1];
+        breakdown.push({ item: 'Power Inlet Box', cost: `$${inletCost[0]} - $${inletCost[1]}` });
+      }
+
+      if (hasPermit) {
+        const permitCost = [75, 150];
+        laborLow += permitCost[0];
+        laborHigh += permitCost[1];
+        breakdown.push({ item: 'Permit & Inspection', cost: `$${permitCost[0]} - $${permitCost[1]}` });
+      }
+
+      if (hasPanelWork) {
+        const panelCost = [200, 500];
+        laborLow += panelCost[0];
+        laborHigh += panelCost[1];
+        breakdown.push({ item: 'Panel Modifications', cost: `$${panelCost[0]} - $${panelCost[1]}` });
+      }
+
+      const totalLow = equipmentLow + laborLow;
+      const totalHigh = equipmentHigh + laborHigh;
+      const totalMid = Math.round((totalLow + totalHigh) / 2);
+
+      // Update UI
+      document.getElementById('equipment-cost').textContent = `$${Math.round((equipmentLow + equipmentHigh) / 2)}`;
+      document.getElementById('labor-cost').textContent = `$${Math.round((laborLow + laborHigh) / 2)}`;
+      document.getElementById('total-cost').textContent = `$${totalMid}`;
+      document.getElementById('cost-range').textContent = `Range: $${totalLow} - $${totalHigh}`;
+
+      // Breakdown list
+      const breakdownList = document.getElementById('breakdown-list');
+      breakdownList.innerHTML = breakdown.map(item => `
+        <div class="flex justify-between text-sm">
+          <span class="text-gray-600">${item.item}</span>
+          <span class="font-medium text-gray-900">${item.cost}</span>
+        </div>
+      `).join('');
+
+      // Product recommendations
+      let productKey = switchType === 'automatic' ? 'automatic' : `manual${amperage}`;
+      if (!products[productKey]) productKey = 'manual30';
+
+      const productList = document.getElementById('product-list');
+      productList.innerHTML = products[productKey].map(product => `
+        <a href="${product.url}" target="_blank" rel="sponsored noopener" class="block border border-gray-200 rounded-lg p-4 hover:border-primary-500 hover:shadow-md transition-all">
+          <h4 class="font-semibold text-gray-900">${product.name}</h4>
+          <p class="text-sm text-gray-600 mt-1">${product.desc}</p>
+          <div class="flex items-center justify-between mt-3">
+            <span class="text-primary-600 font-medium">${product.price}</span>
+            <span class="text-sm text-primary-600">View on Amazon →</span>
+          </div>
+        </a>
+      `).join('');
+
+      document.getElementById('results').classList.remove('hidden');
+      document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // Handle amperage radio buttons
+    document.querySelectorAll('input[name="amperage"]').forEach(radio => {
+      radio.addEventListener('change', () => {
+        document.querySelectorAll('input[name="amperage"]').forEach(r => {
+          r.closest('label').classList.remove('border-primary-500', 'bg-primary-50');
+        });
+        radio.closest('label').classList.add('border-primary-500', 'bg-primary-50');
+      });
+    });
+
+    // Initialize first amperage as selected
+    document.querySelector('input[name="amperage"]:checked')?.closest('label')?.classList.add('border-primary-500', 'bg-primary-50');
+  </script>
 </BaseLayout>

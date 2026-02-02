@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://generatorswitchguide.com/sitemap-index.xml
+
+# Block crawlers from admin or draft content
+Disallow: /admin/
+Disallow: /drafts/

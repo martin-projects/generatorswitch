@@ -3,8 +3,8 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 ---
 
 <BaseLayout
-  title="Compatibility Checker"
-  description="Check if a transfer switch is compatible with your generator and electrical panel."
+  title="Generator & Transfer Switch Compatibility Checker"
+  description="Check if a transfer switch is compatible with your generator and electrical panel. Get personalized recommendations."
 >
   <div class="py-12 md:py-16">
     <div class="container-narrow">
@@ -16,14 +16,295 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
       </header>
 
       <div class="bg-white border border-gray-200 rounded-lg p-8 shadow-sm">
-        <div class="text-center py-12 text-gray-500">
-          <svg class="w-16 h-16 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          <p class="text-lg font-medium">Interactive Tool Coming Soon</p>
-          <p class="text-sm mt-2">Check our <a href="/guides/" class="text-primary-600 hover:underline">guides</a> for compatibility information.</p>
+        <div id="checker-form" class="space-y-6">
+
+          <!-- Generator Type -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+              Generator Type
+            </label>
+            <div class="grid grid-cols-2 gap-4">
+              <label class="relative flex items-center justify-center p-4 border-2 rounded-lg cursor-pointer hover:border-primary-300 transition-colors">
+                <input type="radio" name="gen-type" value="portable" class="sr-only peer" checked />
+                <div class="text-center peer-checked:text-primary-600">
+                  <svg class="w-8 h-8 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                  <span class="font-medium">Portable</span>
+                </div>
+                <div class="absolute inset-0 border-2 border-transparent peer-checked:border-primary-500 rounded-lg pointer-events-none"></div>
+              </label>
+              <label class="relative flex items-center justify-center p-4 border-2 rounded-lg cursor-pointer hover:border-primary-300 transition-colors">
+                <input type="radio" name="gen-type" value="standby" class="sr-only peer" />
+                <div class="text-center peer-checked:text-primary-600">
+                  <svg class="w-8 h-8 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                  </svg>
+                  <span class="font-medium">Standby</span>
+                </div>
+                <div class="absolute inset-0 border-2 border-transparent peer-checked:border-primary-500 rounded-lg pointer-events-none"></div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Generator Brand (for standby) -->
+          <div id="brand-section" class="hidden">
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+              Generator Brand
+            </label>
+            <select id="gen-brand" class="w-full rounded-lg border-gray-300">
+              <option value="">Select brand...</option>
+              <option value="generac">Generac</option>
+              <option value="kohler">Kohler</option>
+              <option value="briggs">Briggs & Stratton</option>
+              <option value="cummins">Cummins</option>
+              <option value="champion">Champion</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <!-- Generator Wattage -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2" for="gen-watts">
+              Generator Wattage
+            </label>
+            <input
+              type="number"
+              id="gen-watts"
+              placeholder="e.g., 7500"
+              class="w-full rounded-lg border-gray-300"
+            />
+          </div>
+
+          <!-- Generator Outlet -->
+          <div id="outlet-section">
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+              Generator Outlet Type
+            </label>
+            <select id="gen-outlet" class="w-full rounded-lg border-gray-300">
+              <option value="">Select outlet type...</option>
+              <option value="L14-30">L14-30 (30A, 4-prong twist lock)</option>
+              <option value="L14-50">L14-50 (50A, 4-prong twist lock)</option>
+              <option value="14-30">14-30 (30A, 4-prong straight)</option>
+              <option value="14-50">14-50 (50A, 4-prong straight)</option>
+              <option value="L5-30">L5-30 (30A, 3-prong twist lock)</option>
+              <option value="unknown">Not sure</option>
+            </select>
+          </div>
+
+          <!-- Electrical Panel -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+              Electrical Panel Size
+            </label>
+            <select id="panel-size" class="w-full rounded-lg border-gray-300">
+              <option value="">Select panel size...</option>
+              <option value="100">100 Amp</option>
+              <option value="150">150 Amp</option>
+              <option value="200">200 Amp</option>
+              <option value="400">400 Amp</option>
+            </select>
+          </div>
+
+          <!-- Desired Switch Type -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+              Transfer Switch Type
+            </label>
+            <div class="flex gap-4">
+              <label class="flex items-center">
+                <input type="radio" name="switch-type" value="manual" class="text-primary-600" checked />
+                <span class="ml-2">Manual</span>
+              </label>
+              <label class="flex items-center">
+                <input type="radio" name="switch-type" value="automatic" class="text-primary-600" />
+                <span class="ml-2">Automatic</span>
+              </label>
+            </div>
+          </div>
+
+          <button id="check-btn" class="w-full affiliate-btn">
+            Check Compatibility
+          </button>
         </div>
+
+        <!-- Results -->
+        <div id="results" class="hidden mt-8 pt-8 border-t border-gray-200">
+          <div id="result-status" class="mb-6">
+            <!-- Dynamic status -->
+          </div>
+
+          <div id="result-details" class="space-y-4 mb-6">
+            <!-- Dynamic details -->
+          </div>
+
+          <div id="product-recommendations">
+            <h3 class="text-lg font-bold text-gray-900 mb-4">Compatible Transfer Switches</h3>
+            <div id="product-cards" class="space-y-4">
+              <!-- Dynamic products -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Info section -->
+      <div class="mt-12 prose prose-lg max-w-none">
+        <h2>Understanding Compatibility</h2>
+
+        <h3>Generator Outlet Types</h3>
+        <p>Most portable generators use one of these common outlet types:</p>
+        <ul>
+          <li><strong>L14-30:</strong> 30 Amp, 4-prong twist-lock (most common)</li>
+          <li><strong>L14-50:</strong> 50 Amp, 4-prong twist-lock (larger generators)</li>
+          <li><strong>L5-30:</strong> 30 Amp, 3-prong twist-lock (older or smaller units)</li>
+        </ul>
+
+        <h3>Transfer Switch Compatibility</h3>
+        <ul>
+          <li>Manual transfer switches work with any generator brand</li>
+          <li>Automatic transfer switches usually require specific brand compatibility</li>
+          <li>Match amperage: 30A switch for 30A outlet, 50A for 50A outlet</li>
+        </ul>
       </div>
     </div>
   </div>
 </BaseLayout>
+
+<script>
+  const products = {
+    manual30: [
+      { name: 'Reliance Controls 310CRK', desc: '30A, 10-circuit complete kit', price: '$280-$350', badge: 'Best Overall', url: 'https://www.amazon.com/dp/B000BQM9HQ?tag=112233445504b-20' },
+      { name: 'Reliance Controls 306LRK', desc: '30A, 6-circuit kit', price: '$170-$220', badge: 'Budget Pick', url: 'https://www.amazon.com/dp/B001GSELEO?tag=112233445504b-20' }
+    ],
+    manual50: [
+      { name: 'Reliance Controls 510CRK', desc: '50A, 10-circuit kit', price: '$350-$420', badge: 'Best 50A', url: 'https://www.amazon.com/dp/B003VNTEO4?tag=112233445504b-20' }
+    ],
+    autoGenerac: [
+      { name: 'Generac RXSW200A3', desc: '200A automatic transfer switch', price: '$500-$650', badge: 'Best for Generac', url: 'https://www.amazon.com/dp/B007Q0SX4S?tag=112233445504b-20' }
+    ],
+    autoOther: [
+      { name: 'Generac RXSW200A3', desc: '200A automatic (may need adapter)', price: '$500-$650', badge: 'Most Compatible', url: 'https://www.amazon.com/dp/B007Q0SX4S?tag=112233445504b-20' }
+    ]
+  };
+
+  // Show/hide brand section based on generator type
+  document.querySelectorAll('input[name="gen-type"]').forEach(radio => {
+    radio.addEventListener('change', (e) => {
+      const isStandby = (e.target as HTMLInputElement).value === 'standby';
+      document.getElementById('brand-section')!.classList.toggle('hidden', !isStandby);
+      document.getElementById('outlet-section')!.classList.toggle('hidden', isStandby);
+    });
+  });
+
+  document.getElementById('check-btn')?.addEventListener('click', () => {
+    const genType = (document.querySelector('input[name="gen-type"]:checked') as HTMLInputElement)?.value;
+    const genBrand = (document.getElementById('gen-brand') as HTMLSelectElement)?.value;
+    const genWatts = parseInt((document.getElementById('gen-watts') as HTMLInputElement)?.value || '0');
+    const genOutlet = (document.getElementById('gen-outlet') as HTMLSelectElement)?.value;
+    const panelSize = (document.getElementById('panel-size') as HTMLSelectElement)?.value;
+    const switchType = (document.querySelector('input[name="switch-type"]:checked') as HTMLInputElement)?.value;
+
+    if (!genWatts || !panelSize) {
+      alert('Please fill in all required fields');
+      return;
+    }
+
+    // Determine compatibility
+    let isCompatible = true;
+    let warnings: string[] = [];
+    let recommendations: string[] = [];
+
+    // Calculate amperage
+    const amps = genWatts / 240;
+    let switchAmps = amps <= 30 ? 30 : amps <= 50 ? 50 : 100;
+
+    // Check for issues
+    if (switchType === 'automatic' && genType === 'portable') {
+      warnings.push('Automatic transfer switches are designed for standby generators. Consider a manual switch for portable generators.');
+    }
+
+    if (genType === 'standby' && switchType === 'manual') {
+      warnings.push('Standby generators typically use automatic transfer switches for convenience.');
+    }
+
+    if (genOutlet === 'L5-30') {
+      warnings.push('L5-30 outlets (3-prong) may require a neutral-ground bonding plug for some transfer switches.');
+    }
+
+    if (amps > parseInt(panelSize)) {
+      isCompatible = false;
+      warnings.push(`Your generator output (${Math.round(amps)}A) exceeds your panel capacity (${panelSize}A).`);
+    }
+
+    // Add recommendations
+    if (genType === 'portable') {
+      recommendations.push(`A ${switchAmps}A manual transfer switch is ideal for your setup.`);
+    } else if (genBrand === 'generac') {
+      recommendations.push('Generac generators work best with Generac automatic transfer switches.');
+    } else {
+      recommendations.push('Consider a universal automatic transfer switch or consult with your generator manufacturer.');
+    }
+
+    // Display results
+    const statusHtml = isCompatible
+      ? `<div class="bg-green-50 border border-green-200 rounded-lg p-6 text-center">
+          <svg class="w-12 h-12 mx-auto text-green-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <p class="text-xl font-bold text-green-800">Compatible!</p>
+          <p class="text-green-700">Your setup can work with a ${switchAmps}A ${switchType} transfer switch.</p>
+        </div>`
+      : `<div class="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
+          <svg class="w-12 h-12 mx-auto text-red-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
+          <p class="text-xl font-bold text-red-800">Compatibility Issues</p>
+          <p class="text-red-700">Please review the warnings below.</p>
+        </div>`;
+
+    document.getElementById('result-status')!.innerHTML = statusHtml;
+
+    // Details
+    let detailsHtml = '';
+    if (warnings.length > 0) {
+      detailsHtml += `<div class="bg-amber-50 rounded-lg p-4">
+        <h4 class="font-semibold text-amber-800 mb-2">Warnings</h4>
+        <ul class="text-sm text-amber-700 space-y-1">
+          ${warnings.map(w => `<li>• ${w}</li>`).join('')}
+        </ul>
+      </div>`;
+    }
+    if (recommendations.length > 0) {
+      detailsHtml += `<div class="bg-blue-50 rounded-lg p-4">
+        <h4 class="font-semibold text-blue-800 mb-2">Recommendations</h4>
+        <ul class="text-sm text-blue-700 space-y-1">
+          ${recommendations.map(r => `<li>• ${r}</li>`).join('')}
+        </ul>
+      </div>`;
+    }
+    document.getElementById('result-details')!.innerHTML = detailsHtml;
+
+    // Products
+    let productList: any[] = [];
+    if (switchType === 'manual') {
+      productList = switchAmps <= 30 ? products.manual30 : products.manual50;
+    } else {
+      productList = genBrand === 'generac' ? products.autoGenerac : products.autoOther;
+    }
+
+    document.getElementById('product-cards')!.innerHTML = productList.map(p => `
+      <div class="bg-white border border-gray-200 rounded-lg p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <span class="inline-block bg-primary-100 text-primary-700 text-xs font-medium px-2 py-1 rounded mb-2">${p.badge}</span>
+          <h4 class="font-bold text-gray-900">${p.name}</h4>
+          <p class="text-sm text-gray-600">${p.desc}</p>
+          <p class="text-sm font-medium text-gray-900 mt-1">${p.price}</p>
+        </div>
+        <a href="${p.url}" class="affiliate-btn whitespace-nowrap" target="_blank" rel="sponsored noopener">Check Price</a>
+      </div>
+    `).join('');
+
+    document.getElementById('results')?.classList.remove('hidden');
+    document.getElementById('results')?.scrollIntoView({ behavior: 'smooth' });
+  });
+</script>

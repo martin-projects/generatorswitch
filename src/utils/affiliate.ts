@@ -2,7 +2,7 @@
  * Affiliate link utilities for Amazon Associates and other programs
  */
 
-const AMAZON_AFFILIATE_TAG = import.meta.env.AMAZON_AFFILIATE_TAG || 'generatorswitch-20';
+const AMAZON_AFFILIATE_TAG = '112233445504b-20';
 
 /**
  * Generate an Amazon affiliate link from an ASIN

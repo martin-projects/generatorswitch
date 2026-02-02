@@ -1,33 +1,245 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import appliancesData from '@/data/appliances.json';
 ---
 
 <BaseLayout
-  title="Wattage Calculator"
-  description="Calculate your home's power needs during an outage. Add appliances and see your total wattage requirements."
+  title="Generator Wattage Calculator"
+  description="Calculate your total power needs for a generator. Select appliances and get the recommended generator size and transfer switch."
 >
   <div class="py-12 md:py-16">
     <div class="container-narrow">
       <header class="mb-8 text-center">
         <h1 class="text-4xl font-bold text-gray-900 mb-4">Wattage Calculator</h1>
         <p class="text-xl text-gray-600">
-          Calculate how much power you need by selecting the appliances you want to run during an outage.
+          Calculate your total power needs by selecting the appliances you want to run during an outage.
         </p>
       </header>
 
       <div class="bg-white border border-gray-200 rounded-lg p-8 shadow-sm">
-        <p class="text-gray-600 mb-6">
-          Select the appliances you want to power during an outage. We'll calculate your total running and starting watts.
+        <div id="appliance-selector" class="space-y-6">
+          <p class="text-sm text-gray-600">Select all appliances you want to power during an outage:</p>
+
+          {appliancesData.categories.map((category) => (
+            <div class="border-b border-gray-100 pb-4">
+              <h3 class="font-semibold text-gray-900 mb-3">{category.name}</h3>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                {category.appliances.map((appliance) => (
+                  <label class="flex items-center gap-3 p-2 rounded hover:bg-gray-50 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      class="appliance-checkbox rounded text-primary-600 focus:ring-primary-500"
+                      data-running={appliance.runningWatts}
+                      data-starting={appliance.startingWatts}
+                    />
+                    <span class="flex-1 text-sm text-gray-700">{appliance.name}</span>
+                    <span class="text-xs text-gray-500">{appliance.runningWatts}W</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+          ))}
+
+          <!-- Custom appliance -->
+          <div class="border-t border-gray-200 pt-4">
+            <h3 class="font-semibold text-gray-900 mb-3">Add Custom Appliance</h3>
+            <div class="flex gap-2">
+              <input
+                type="text"
+                id="custom-name"
+                placeholder="Appliance name"
+                class="flex-1 rounded-lg border-gray-300 text-sm"
+              />
+              <input
+                type="number"
+                id="custom-watts"
+                placeholder="Watts"
+                class="w-24 rounded-lg border-gray-300 text-sm"
+              />
+              <button
+                id="add-custom"
+                class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 text-sm font-medium"
+              >
+                Add
+              </button>
+            </div>
+            <div id="custom-appliances" class="mt-2 space-y-1"></div>
+          </div>
+
+          <button
+            id="calculate-btn"
+            class="w-full affiliate-btn"
+          >
+            Calculate Power Needs
+          </button>
+        </div>
+
+        <!-- Results Section -->
+        <div id="results" class="hidden mt-8 pt-8 border-t border-gray-200">
+          <h2 class="text-xl font-bold text-gray-900 mb-4">Your Power Requirements</h2>
+
+          <div class="grid grid-cols-2 gap-4 mb-6">
+            <div class="bg-blue-50 rounded-lg p-4 text-center">
+              <p class="text-sm text-blue-700 font-medium">Running Watts</p>
+              <p id="running-watts" class="text-2xl font-bold text-blue-900">0 W</p>
+            </div>
+            <div class="bg-amber-50 rounded-lg p-4 text-center">
+              <p class="text-sm text-amber-700 font-medium">Starting Watts</p>
+              <p id="starting-watts" class="text-2xl font-bold text-amber-900">0 W</p>
+            </div>
+          </div>
+
+          <div class="bg-primary-50 rounded-lg p-6 mb-6">
+            <p class="text-sm text-primary-700 font-medium">Recommended Generator Size</p>
+            <p id="generator-size" class="text-3xl font-bold text-primary-900">0 Watts</p>
+            <p class="text-sm text-primary-600 mt-1">(includes 20% safety margin)</p>
+          </div>
+
+          <div class="bg-gray-50 rounded-lg p-4 mb-6">
+            <p class="text-sm font-medium text-gray-900">Recommended Transfer Switch:</p>
+            <p id="switch-size" class="text-lg font-bold text-gray-900">30 Amp</p>
+          </div>
+
+          <!-- Product Recommendations -->
+          <div class="mt-6">
+            <h3 class="text-lg font-bold text-gray-900 mb-4">Recommended Transfer Switches</h3>
+            <div id="product-cards" class="space-y-4">
+              <!-- Dynamic content -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Educational content -->
+      <div class="mt-12 prose prose-lg max-w-none">
+        <h2>Understanding Running vs Starting Watts</h2>
+        <p>
+          <strong>Running watts</strong> (also called rated watts) is the continuous power an appliance needs to operate. <strong>Starting watts</strong> (also called surge or peak watts) is the extra power needed to start motor-driven appliances.
         </p>
 
-        <div class="text-center py-12 text-gray-500">
-          <svg class="w-16 h-16 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-          </svg>
-          <p class="text-lg font-medium">Interactive Calculator Coming Soon</p>
-          <p class="text-sm mt-2">In the meantime, check out our <a href="/guides/how-to-size-transfer-switch/" class="text-primary-600 hover:underline">sizing guide</a>.</p>
-        </div>
+        <h3>Tips for Accurate Calculations</h3>
+        <ul>
+          <li>Check appliance labels for exact wattage</li>
+          <li>Motors (pumps, AC, refrigerators) need 2-3x starting watts</li>
+          <li>Add a 20% buffer for safety</li>
+          <li>Don't start all motor appliances at once</li>
+        </ul>
       </div>
     </div>
   </div>
 </BaseLayout>
+
+<script>
+  let customAppliances: {name: string, watts: number}[] = [];
+
+  const products = {
+    30: [
+      {
+        name: 'Reliance Controls 310CRK',
+        description: '30A, 10-circuit complete kit',
+        price: '$280 - $350',
+        badge: 'Best Overall',
+        url: 'https://www.amazon.com/dp/B000BQM9HQ?tag=112233445504b-20'
+      },
+      {
+        name: 'Reliance Controls 306LRK',
+        description: '30A, 6-circuit kit',
+        price: '$170 - $220',
+        badge: 'Best Value',
+        url: 'https://www.amazon.com/dp/B001GSELEO?tag=112233445504b-20'
+      }
+    ],
+    50: [
+      {
+        name: 'Reliance Controls 510CRK',
+        description: '50A, 10-circuit kit',
+        price: '$350 - $420',
+        badge: 'Best 50 Amp',
+        url: 'https://www.amazon.com/dp/B003VNTEO4?tag=112233445504b-20'
+      }
+    ]
+  };
+
+  // Add custom appliance
+  document.getElementById('add-custom')?.addEventListener('click', () => {
+    const nameInput = document.getElementById('custom-name') as HTMLInputElement;
+    const wattsInput = document.getElementById('custom-watts') as HTMLInputElement;
+    const container = document.getElementById('custom-appliances');
+
+    if (nameInput.value && wattsInput.value) {
+      const watts = parseInt(wattsInput.value);
+      customAppliances.push({ name: nameInput.value, watts });
+
+      const div = document.createElement('div');
+      div.className = 'flex items-center justify-between bg-gray-50 p-2 rounded text-sm';
+      div.innerHTML = `
+        <span>${nameInput.value} (${watts}W)</span>
+        <button class="text-red-500 hover:text-red-700 remove-custom">Remove</button>
+      `;
+      div.querySelector('.remove-custom')?.addEventListener('click', () => {
+        customAppliances = customAppliances.filter(a => a.name !== nameInput.value);
+        div.remove();
+      });
+      container?.appendChild(div);
+
+      nameInput.value = '';
+      wattsInput.value = '';
+    }
+  });
+
+  // Calculate
+  document.getElementById('calculate-btn')?.addEventListener('click', () => {
+    const checkboxes = document.querySelectorAll('.appliance-checkbox:checked');
+
+    let totalRunning = 0;
+    let totalStarting = 0;
+
+    checkboxes.forEach((cb: any) => {
+      totalRunning += parseInt(cb.dataset.running || '0');
+      totalStarting += parseInt(cb.dataset.starting || '0');
+    });
+
+    // Add custom appliances
+    customAppliances.forEach(a => {
+      totalRunning += a.watts;
+      totalStarting += Math.round(a.watts * 1.5); // Estimate 1.5x for starting
+    });
+
+    if (totalRunning === 0) {
+      alert('Please select at least one appliance');
+      return;
+    }
+
+    // Calculate recommended generator (with 20% margin)
+    const recommendedGenerator = Math.ceil(totalStarting * 1.2);
+
+    // Calculate switch size
+    const amps = recommendedGenerator / 240;
+    let switchSize = amps <= 30 ? 30 : 50;
+
+    // Update display
+    document.getElementById('running-watts')!.textContent = `${totalRunning.toLocaleString()} W`;
+    document.getElementById('starting-watts')!.textContent = `${totalStarting.toLocaleString()} W`;
+    document.getElementById('generator-size')!.textContent = `${recommendedGenerator.toLocaleString()} Watts`;
+    document.getElementById('switch-size')!.textContent = `${switchSize} Amp`;
+
+    // Product recommendations
+    const recommendedProducts = products[switchSize as keyof typeof products] || products[30];
+    document.getElementById('product-cards')!.innerHTML = recommendedProducts.map(product => `
+      <div class="bg-white border border-gray-200 rounded-lg p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <span class="inline-block bg-primary-100 text-primary-700 text-xs font-medium px-2 py-1 rounded mb-2">${product.badge}</span>
+          <h4 class="font-bold text-gray-900">${product.name}</h4>
+          <p class="text-sm text-gray-600">${product.description}</p>
+          <p class="text-sm font-medium text-gray-900 mt-1">${product.price}</p>
+        </div>
+        <a href="${product.url}" class="affiliate-btn whitespace-nowrap" target="_blank" rel="sponsored noopener">
+          Check Price
+        </a>
+      </div>
+    `).join('');
+
+    document.getElementById('results')?.classList.remove('hidden');
+    document.getElementById('results')?.scrollIntoView({ behavior: 'smooth' });
+  });
+</script>

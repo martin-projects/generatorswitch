@@ -63,6 +63,20 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
             </div>
           </div>
 
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2" for="circuits-needed">
+              How many circuits do you need to power?
+            </label>
+            <select
+              id="circuits-needed"
+              class="w-full rounded-lg border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+            >
+              <option value="6">6 circuits (essentials only)</option>
+              <option value="10" selected>10 circuits (recommended)</option>
+              <option value="whole">Whole house</option>
+            </select>
+          </div>
+
           <button
             id="calculate-btn"
             class="w-full affiliate-btn"
@@ -79,10 +93,19 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
             <p id="result-size" class="text-3xl font-bold text-primary-900">30 Amp</p>
           </div>
           <div id="result-explanation" class="text-gray-600 mb-6">
-            Based on your generator wattage and panel size, a 30 amp transfer switch is recommended.
+            <!-- Dynamic explanation -->
           </div>
-          <div class="bg-gray-50 rounded-lg p-4">
-            <p class="text-sm text-gray-600 mb-2"><strong>Note:</strong> This is a general recommendation. For a complete assessment, consult a licensed electrician who can evaluate your specific electrical system.</p>
+
+          <!-- Product Recommendations -->
+          <div id="product-recommendations" class="mt-8">
+            <h3 class="text-lg font-bold text-gray-900 mb-4">Recommended Products</h3>
+            <div id="product-cards" class="space-y-4">
+              <!-- Dynamic product cards -->
+            </div>
+          </div>
+
+          <div class="bg-gray-50 rounded-lg p-4 mt-6">
+            <p class="text-sm text-gray-600"><strong>Note:</strong> This is a general recommendation. For a complete assessment, consult a licensed electrician who can evaluate your specific electrical system.</p>
           </div>
         </div>
       </div>
@@ -146,15 +169,77 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 </BaseLayout>
 
 <script>
+  // Product database with affiliate links
+  const products = {
+    manual: {
+      30: [
+        {
+          name: 'Reliance Controls 310CRK',
+          description: '30A, 10-circuit complete kit with inlet box and cord',
+          price: '$280 - $350',
+          badge: 'Best Overall',
+          url: 'https://www.amazon.com/dp/B000BQM9HQ?tag=112233445504b-20'
+        },
+        {
+          name: 'Reliance Controls 306LRK',
+          description: '30A, 6-circuit kit - great budget option',
+          price: '$170 - $220',
+          badge: 'Best Value',
+          url: 'https://www.amazon.com/dp/B001GSELEO?tag=112233445504b-20'
+        }
+      ],
+      50: [
+        {
+          name: 'Reliance Controls 510CRK',
+          description: '50A, 10-circuit kit for larger generators',
+          price: '$350 - $420',
+          badge: 'Best 50 Amp',
+          url: 'https://www.amazon.com/dp/B003VNTEO4?tag=112233445504b-20'
+        }
+      ],
+      100: [
+        {
+          name: 'Generac RXSW100A3',
+          description: '100A automatic transfer switch',
+          price: '$450 - $550',
+          badge: 'Professional Grade',
+          url: 'https://www.amazon.com/dp/B007Q0SWT2?tag=112233445504b-20'
+        }
+      ]
+    },
+    automatic: {
+      100: [
+        {
+          name: 'Generac RXSW100A3',
+          description: '100A service-rated automatic transfer switch',
+          price: '$450 - $550',
+          badge: 'Best 100A Auto',
+          url: 'https://www.amazon.com/dp/B007Q0SWT2?tag=112233445504b-20'
+        }
+      ],
+      200: [
+        {
+          name: 'Generac RXSW200A3',
+          description: '200A whole-house automatic transfer switch',
+          price: '$500 - $650',
+          badge: 'Best Whole House',
+          url: 'https://www.amazon.com/dp/B007Q0SX4S?tag=112233445504b-20'
+        }
+      ]
+    }
+  };
+
   const calculateBtn = document.getElementById('calculate-btn');
   const resultsSection = document.getElementById('results');
   const resultSize = document.getElementById('result-size');
   const resultExplanation = document.getElementById('result-explanation');
+  const productCards = document.getElementById('product-cards');
 
   calculateBtn?.addEventListener('click', () => {
     const panelAmps = (document.getElementById('panel-amps') as HTMLSelectElement)?.value;
     const generatorWatts = parseInt((document.getElementById('generator-watts') as HTMLInputElement)?.value || '0');
     const switchType = (document.querySelector('input[name="switch-type"]:checked') as HTMLInputElement)?.value;
+    const circuitsNeeded = (document.getElementById('circuits-needed') as HTMLSelectElement)?.value;
 
     if (!panelAmps || !generatorWatts) {
       alert('Please fill in all fields');
@@ -175,6 +260,11 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
       recommendedSize = 200;
     }
 
+    // For automatic + whole house, recommend higher
+    if (switchType === 'automatic' && circuitsNeeded === 'whole') {
+      recommendedSize = Math.max(recommendedSize, 100);
+    }
+
     // Ensure we don't exceed panel capacity
     const panelLimit = parseInt(panelAmps);
     if (recommendedSize > panelLimit) {
@@ -183,9 +273,36 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 
     resultSize!.textContent = `${recommendedSize} Amp`;
     resultExplanation!.innerHTML = `
-      <p>Based on your ${generatorWatts.toLocaleString()}W generator (≈${Math.round(calculatedAmps)}A at 240V) and ${panelAmps}A panel, we recommend a <strong>${recommendedSize} amp ${switchType} transfer switch</strong>.</p>
+      <p>Based on your <strong>${generatorWatts.toLocaleString()}W generator</strong> (≈${Math.round(calculatedAmps)}A at 240V) and <strong>${panelAmps}A panel</strong>, we recommend a <strong>${recommendedSize} amp ${switchType} transfer switch</strong>.</p>
       <p class="mt-2">This size provides adequate capacity for your generator while staying within your electrical panel's limits.</p>
     `;
+
+    // Get product recommendations
+    const typeProducts = products[switchType as keyof typeof products] || products.manual;
+    let recommendedProducts = typeProducts[recommendedSize as keyof typeof typeProducts] || [];
+
+    // Fallback to 30A manual if no products found
+    if (recommendedProducts.length === 0 && switchType === 'manual') {
+      recommendedProducts = products.manual[30];
+    }
+    if (recommendedProducts.length === 0 && switchType === 'automatic') {
+      recommendedProducts = products.automatic[200];
+    }
+
+    // Render product cards
+    productCards!.innerHTML = recommendedProducts.map((product: any) => `
+      <div class="bg-white border border-gray-200 rounded-lg p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <span class="inline-block bg-primary-100 text-primary-700 text-xs font-medium px-2 py-1 rounded mb-2">${product.badge}</span>
+          <h4 class="font-bold text-gray-900">${product.name}</h4>
+          <p class="text-sm text-gray-600">${product.description}</p>
+          <p class="text-sm font-medium text-gray-900 mt-1">${product.price}</p>
+        </div>
+        <a href="${product.url}" class="affiliate-btn whitespace-nowrap" target="_blank" rel="sponsored noopener">
+          Check Price
+        </a>
+      </div>
+    `).join('');
 
     resultsSection?.classList.remove('hidden');
     resultsSection?.scrollIntoView({ behavior: 'smooth' });

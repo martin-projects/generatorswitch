@@ -1,0 +1,168 @@
+{
+  "$ref": "#/definitions/articles",
+  "definitions": {
+    "articles": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "maxLength": 60
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 160
+        },
+        "publishDate": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "string",
+              "format": "date"
+            },
+            {
+              "type": "integer",
+              "format": "unix-time"
+            }
+          ]
+        },
+        "updatedDate": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "string",
+              "format": "date"
+            },
+            {
+              "type": "integer",
+              "format": "unix-time"
+            }
+          ]
+        },
+        "author": {
+          "type": "string",
+          "default": "editorial-team"
+        },
+        "category": {
+          "type": "string",
+          "enum": [
+            "guides",
+            "reviews",
+            "comparisons",
+            "how-to",
+            "safety",
+            "installation"
+          ]
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "contentType": {
+          "type": "string",
+          "enum": [
+            "pillar",
+            "supporting",
+            "buyer-intent",
+            "comparison",
+            "tool"
+          ]
+        },
+        "canonicalUrl": {
+          "type": "string",
+          "format": "uri"
+        },
+        "noindex": {
+          "type": "boolean",
+          "default": false
+        },
+        "ogImage": {
+          "type": "string"
+        },
+        "ogImageAlt": {
+          "type": "string"
+        },
+        "showToc": {
+          "type": "boolean",
+          "default": true
+        },
+        "showAuthor": {
+          "type": "boolean",
+          "default": true
+        },
+        "showRelated": {
+          "type": "boolean",
+          "default": true
+        },
+        "affiliateDisclosure": {
+          "type": "string",
+          "enum": [
+            "none",
+            "minimal",
+            "standard",
+            "heavy"
+          ],
+          "default": "standard"
+        },
+        "pillarArticle": {
+          "type": "string"
+        },
+        "relatedArticles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "featured": {
+          "type": "boolean",
+          "default": false
+        },
+        "priority": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "default": 0.5
+        },
+        "faqs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "question": {
+                "type": "string"
+              },
+              "answer": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "question",
+              "answer"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "$schema": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "description",
+        "publishDate",
+        "category",
+        "contentType"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

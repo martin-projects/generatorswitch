@@ -1,0 +1,12 @@
+
+export default new Map([
+["src/content/articles/best-transfer-switches.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Farticles%2Fbest-transfer-switches.mdx&astroContentModuleFlag=true")],
+["src/content/articles/generator-interlock-vs-transfer-switch.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Farticles%2Fgenerator-interlock-vs-transfer-switch.mdx&astroContentModuleFlag=true")],
+["src/content/articles/generac-transfer-switch-review.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Farticles%2Fgenerac-transfer-switch-review.mdx&astroContentModuleFlag=true")],
+["src/content/articles/how-to-size-transfer-switch.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Farticles%2Fhow-to-size-transfer-switch.mdx&astroContentModuleFlag=true")],
+["src/content/articles/reliance-transfer-switch-review.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Farticles%2Freliance-transfer-switch-review.mdx&astroContentModuleFlag=true")],
+["src/content/articles/manual-vs-automatic-transfer-switch.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Farticles%2Fmanual-vs-automatic-transfer-switch.mdx&astroContentModuleFlag=true")],
+["src/content/articles/transfer-switch-installation-cost.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Farticles%2Ftransfer-switch-installation-cost.mdx&astroContentModuleFlag=true")],
+["src/content/articles/transfer-switch-wiring-guide.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Farticles%2Ftransfer-switch-wiring-guide.mdx&astroContentModuleFlag=true")],
+["src/content/articles/whole-house-transfer-switch-guide.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Farticles%2Fwhole-house-transfer-switch-guide.mdx&astroContentModuleFlag=true")]]);
+		

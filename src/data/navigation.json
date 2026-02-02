@@ -5,7 +5,7 @@
       "href": "/guides/",
       "children": [
         { "label": "Manual vs Automatic", "href": "/guides/manual-vs-automatic-transfer-switch/" },
-        { "label": "Installation Guide", "href": "/guides/transfer-switch-installation/" },
+        { "label": "Installation Guide", "href": "/guides/transfer-switch-installation-cost/" },
         { "label": "Sizing Guide", "href": "/guides/how-to-size-transfer-switch/" },
         { "label": "All Guides", "href": "/guides/" }
       ]

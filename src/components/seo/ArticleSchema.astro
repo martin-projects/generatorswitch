@@ -25,7 +25,7 @@ const schema = {
     name: siteData.name,
     logo: {
       '@type': 'ImageObject',
-      url: `${siteData.url}/logo.png`,
+      url: `${siteData.url}/favicon.svg`,
     },
   },
   mainEntityOfPage: {
@@ -34,7 +34,7 @@ const schema = {
   },
   image: article.ogImage
     ? `${siteData.url}${article.ogImage}`
-    : `${siteData.url}/og-default.png`,
+    : `${siteData.url}/favicon.svg`,
   articleSection: article.category,
   keywords: article.tags?.join(', '),
 };

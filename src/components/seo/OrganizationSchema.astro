@@ -1,0 +1,24 @@
+---
+import siteData from '@/data/site.json';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: siteData.name,
+  url: siteData.url,
+  logo: `${siteData.url}/favicon.svg`,
+  description: siteData.description,
+  contactPoint: {
+    '@type': 'ContactPoint',
+    email: siteData.contact.email,
+    contactType: 'customer service',
+  },
+  sameAs: [
+    siteData.social.twitter,
+    siteData.social.facebook,
+    siteData.social.youtube,
+  ].filter(Boolean),
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

@@ -6,6 +6,7 @@ import TableOfContents from '@/components/content/TableOfContents.astro';
 import RelatedArticles from '@/components/content/RelatedArticles.astro';
 import ArticleSchema from '@/components/seo/ArticleSchema.astro';
 import FAQSchema from '@/components/seo/FAQSchema.astro';
+import BreadcrumbSchema from '@/components/seo/BreadcrumbSchema.astro';
 import { formatDateDisplay } from '@/utils/seo';
 import { getReadingTime } from '@/utils/reading-time';
 import type { CollectionEntry } from 'astro:content';
@@ -39,6 +40,7 @@ const showAffiliate = data.affiliateDisclosure !== 'none';
   }}
 >
   <ArticleSchema article={data} slug={slug} />
+  <BreadcrumbSchema items={breadcrumbs} />
   {data.faqs && data.faqs.length > 0 && <FAQSchema faqs={data.faqs} />}
 
   <article class="py-8 md:py-12">

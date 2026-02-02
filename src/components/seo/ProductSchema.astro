@@ -1,13 +1,41 @@
 ---
-import type { Product } from '@/utils/affiliate';
+import siteData from '@/data/site.json';
+
+export interface ProductProps {
+  name: string;
+  brand: string;
+  description?: string;
+  sku?: string;
+  asin?: string;
+  rating?: number;
+  priceRange?: string;
+  image?: string;
+  url?: string;
+}
 
 export interface Props {
-  product: Product;
+  product: ProductProps;
   reviewRating?: number;
   reviewCount?: number;
 }
 
 const { product, reviewRating, reviewCount } = Astro.props;
+
+// Parse price range like "$280 - $350" to get min/max
+const parsePrice = (priceRange?: string) => {
+  if (!priceRange) return null;
+  const matches = priceRange.match(/\$?([\d,]+)/g);
+  if (matches && matches.length >= 1) {
+    const prices = matches.map(p => parseFloat(p.replace(/[$,]/g, '')));
+    return {
+      minPrice: Math.min(...prices),
+      maxPrice: Math.max(...prices),
+    };
+  }
+  return null;
+};
+
+const prices = parsePrice(product.priceRange);
 
 const schema: Record<string, unknown> = {
   '@context': 'https://schema.org',
@@ -17,10 +45,28 @@ const schema: Record<string, unknown> = {
     '@type': 'Brand',
     name: product.brand,
   },
-  description: product.bestFor,
-  sku: product.model,
+  description: product.description || `${product.name} transfer switch by ${product.brand}`,
+  ...(product.sku && { sku: product.sku }),
+  ...(product.asin && { gtin13: product.asin }),
+  ...(product.image && {
+    image: product.image.startsWith('http') ? product.image : `${siteData.url}${product.image}`
+  }),
 };
 
+// Add offers with price
+if (prices) {
+  schema.offers = {
+    '@type': 'AggregateOffer',
+    priceCurrency: 'USD',
+    lowPrice: prices.minPrice,
+    highPrice: prices.maxPrice,
+    offerCount: 1,
+    availability: 'https://schema.org/InStock',
+    ...(product.url && { url: product.url }),
+  };
+}
+
+// Add aggregate rating
 if (reviewRating && reviewCount) {
   schema.aggregateRating = {
     '@type': 'AggregateRating',
@@ -31,6 +77,7 @@ if (reviewRating && reviewCount) {
   };
 }
 
+// Add individual review/rating
 if (product.rating) {
   schema.review = {
     '@type': 'Review',
@@ -38,12 +85,24 @@ if (product.rating) {
       '@type': 'Rating',
       ratingValue: product.rating,
       bestRating: 5,
+      worstRating: 1,
     },
     author: {
       '@type': 'Organization',
-      name: 'Generator Switch Guide',
+      name: siteData.name,
     },
   };
+
+  // Also add as aggregate if no reviewCount provided
+  if (!reviewCount) {
+    schema.aggregateRating = {
+      '@type': 'AggregateRating',
+      ratingValue: product.rating,
+      reviewCount: 1,
+      bestRating: 5,
+      worstRating: 1,
+    };
+  }
 }
 ---
 

@@ -1,0 +1,76 @@
+---
+import siteData from '@/data/site.json';
+
+export interface HowToStep {
+  name: string;
+  text: string;
+  image?: string;
+}
+
+export interface Props {
+  name: string;
+  description: string;
+  totalTime?: string; // ISO 8601 duration format, e.g., "PT30M" for 30 minutes
+  estimatedCost?: {
+    currency: string;
+    minValue: number;
+    maxValue: number;
+  };
+  supply?: string[];
+  tool?: string[];
+  steps: HowToStep[];
+  image?: string;
+}
+
+const { name, description, totalTime, estimatedCost, supply, tool, steps, image } = Astro.props;
+
+const schema: Record<string, any> = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name,
+  description,
+  step: steps.map((step, index) => ({
+    '@type': 'HowToStep',
+    position: index + 1,
+    name: step.name,
+    text: step.text,
+    ...(step.image && { image: step.image }),
+  })),
+};
+
+if (totalTime) {
+  schema.totalTime = totalTime;
+}
+
+if (estimatedCost) {
+  schema.estimatedCost = {
+    '@type': 'MonetaryAmount',
+    currency: estimatedCost.currency,
+    value: {
+      '@type': 'QuantitativeValue',
+      minValue: estimatedCost.minValue,
+      maxValue: estimatedCost.maxValue,
+    },
+  };
+}
+
+if (supply && supply.length > 0) {
+  schema.supply = supply.map(item => ({
+    '@type': 'HowToSupply',
+    name: item,
+  }));
+}
+
+if (tool && tool.length > 0) {
+  schema.tool = tool.map(item => ({
+    '@type': 'HowToTool',
+    name: item,
+  }));
+}
+
+if (image) {
+  schema.image = image.startsWith('http') ? image : `${siteData.url}${image}`;
+}
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />
